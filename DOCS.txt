@@ -1,0 +1,1 @@
+pieces src :- https://github.com/lichess-org/lila/blob/master/public/piece/chessnut/wR.svg
