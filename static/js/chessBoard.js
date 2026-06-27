@@ -7,7 +7,9 @@ const offset = 30;
 
 let boardOrientation = "white";
 
-let board = []
+let board = [];
+
+let currentTurn = "w";
 
 
 if (boardOrientation === "white") {
@@ -197,10 +199,22 @@ canvas.addEventListener("click", (event) => {
 
     else {
 
-        board[row][column] = selectedPiece;
         if (row == selectedRow && column == selectedCol) {
             return
         } else {
+            const clickedPiece = board[row][column];
+
+            //CHECKING THE FIRST LETTER
+            if (clickedPiece !== "" && clickedPiece[0] === currentTurn) {
+                selectedPiece = clickedPiece;
+                selectedRow = row;
+                selectedCol = column;
+
+                drawBoard();
+                return
+            }
+
+            board[row][column] = selectedPiece;
             board[selectedRow][selectedCol] = "";
         }
         
