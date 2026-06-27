@@ -190,6 +190,12 @@ canvas.addEventListener("click", (event) => {
     if (selectedPiece === null) {
 
         if (board[row][column] === "") return;
+        
+
+        //PREVENT SELECTING THE OTHER COLOR 
+        if (board[row][column][0] !== currentTurn) {
+            return
+        }
 
         selectedPiece = board[row][column];
         selectedRow = row;
@@ -216,9 +222,14 @@ canvas.addEventListener("click", (event) => {
 
             board[row][column] = selectedPiece;
             board[selectedRow][selectedCol] = "";
+
+            if (currentTurn === "w") {
+                currentTurn = "b";
+            } else {
+                currentTurn = "w";
+            }
         }
         
-
         selectedPiece = null;
         selectedRow = -1;
         selectedCol = -1;
