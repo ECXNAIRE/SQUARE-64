@@ -5,7 +5,7 @@ const boardSize = 640;
 const squareSize = boardSize / 8;
 const offset = 30;
 
-let boardOrientation = "black";
+let boardOrientation = "white";
 
 let board = []
 
@@ -72,10 +72,10 @@ function drawSquares() {
                 ctx.lineWidth = 4;
 
                 ctx.strokeRect(
-                    offset + column * squareSize,
-                    offset + row * squareSize,
-                    squareSize,
-                    squareSize
+                    offset + column * squareSize + 1.5,
+                    offset + row * squareSize + 1.5,
+                    squareSize -3 ,
+                    squareSize - 3
                 );
             }
         }
@@ -198,7 +198,12 @@ canvas.addEventListener("click", (event) => {
     else {
 
         board[row][column] = selectedPiece;
-        board[selectedRow][selectedCol] = "";
+        if (row == selectedRow && column == selectedCol) {
+            return
+        } else {
+            board[selectedRow][selectedCol] = "";
+        }
+        
 
         selectedPiece = null;
         selectedRow = -1;
