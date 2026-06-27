@@ -57,11 +57,7 @@ function drawSquares() {
     for (let row = 0; row < 8; row++) {
         for (let column = 0; column < 8; column++) {
 
-            let displayRow = row;
-            let displayColumn = column;
-
-            const isLight = (displayRow + displayColumn) % 2 == 0;
-
+            const isLight = (row + column) % 2 == 0;
             ctx.fillStyle = isLight ? "#d6fabf" : "#55a700";
 
             ctx.fillRect(
@@ -71,9 +67,19 @@ function drawSquares() {
                 squareSize
             );
 
+            if (row === selectedRow && column === selectedCol) {
+                ctx.strokeStyle = "yellow";
+                ctx.lineWidth = 4;
+
+                ctx.strokeRect(
+                    offset + column * squareSize,
+                    offset + row * squareSize,
+                    squareSize,
+                    squareSize
+                );
+            }
         }
     }
-
 }
 
 function drawCoordinates() {
@@ -118,7 +124,7 @@ function loadPiece(name, path) {
     img.onload = () => {
         loadedCount++;
         if (loadedCount === totalPieces) {
-            drawBoard(); // ONLY draw when everything is ready
+            drawBoard();
         }
     };
 
@@ -156,3 +162,48 @@ function drawPieces() {
         }
     }
 }
+
+
+
+//MOVE THE PIECES
+let selectedPiece = null;
+let selectedRow = -1;
+let selectedCol = -1;
+
+
+canvas.addEventListener("click", (event) => {
+
+    const rect = canvas.getBoundingClientRect();
+
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    const column = Math.floor((x - offset) / squareSize);
+    const row = Math.floor((y - offset) / squareSize);
+
+    if (
+        row < 0 || row > 7 ||
+        column < 0 || column > 7
+    ) return;
+    if (selectedPiece === null) {
+
+        if (board[row][column] === "") return;
+
+        selectedPiece = board[row][column];
+        selectedRow = row;
+        selectedCol = column;
+
+    }
+
+    else {
+
+        board[row][column] = selectedPiece;
+        board[selectedRow][selectedCol] = "";
+
+        selectedPiece = null;
+        selectedRow = -1;
+        selectedCol = -1;
+    }
+
+    drawBoard();
+});
