@@ -5,11 +5,19 @@ const boardSize = 640;
 const squareSize = boardSize / 8;
 const offset = 30;
 
+let currentTurn = "w";
+
 let boardOrientation = "white";
+
+if (currentTurn === "w") {
+    boardOrientation ="white";
+} else {
+    boardOrientation= "black";
+}
 
 let board = [];
 
-let currentTurn = "w";
+
 
 
 if (boardOrientation === "white") {
@@ -62,9 +70,17 @@ function drawSquares() {
             const isLight = (row + column) % 2 == 0;
             ctx.fillStyle = isLight ? "#d6fabf" : "#55a700";
 
+            let displayRow = row;
+            let displayColumn = column;
+
+            if (boardOrientation === "black") {
+                displayRow = 7 - row;
+                displayColumn = 7- column;
+            }
+
             ctx.fillRect(
-                offset + column * squareSize,
-                offset + row * squareSize,
+                offset + displayColumn * squareSize,
+                offset + displayRow * squareSize,
                 squareSize,
                 squareSize
             );
@@ -74,8 +90,8 @@ function drawSquares() {
                 ctx.lineWidth = 4;
 
                 ctx.strokeRect(
-                    offset + column * squareSize + 1.5,
-                    offset + row * squareSize + 1.5,
+                    offset + displayColumn * squareSize + 1.5,
+                    offset + displayRow * squareSize + 1.5,
                     squareSize -3 ,
                     squareSize - 3
                 );
@@ -153,10 +169,18 @@ function drawPieces() {
             let piece = board[row][column];
 
             if (piece !== "" && pieces[piece]) {
+
+                let displayRow = row;
+                let displayColumn = column;
+
+                if (boardOrientation === "black") {
+                    displayRow = 7- row;
+                    displayColumn = 7- column;
+                }
                 ctx.drawImage(
                     pieces[piece],
-                    offset + column * squareSize,
-                    offset + row * squareSize,
+                    offset + displayColumn * squareSize,
+                    offset + displayRow * squareSize,
                     squareSize,
                     squareSize
                 );
@@ -180,8 +204,13 @@ canvas.addEventListener("click", (event) => {
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
 
-    const column = Math.floor((x - offset) / squareSize);
-    const row = Math.floor((y - offset) / squareSize);
+    let column = Math.floor((x - offset) / squareSize);
+    let row = Math.floor((y - offset) / squareSize);
+
+    if (boardOrientation === "black") {
+        row = 7 - row;
+        column = 7- column;
+    }
 
     if (
         row < 0 || row > 7 ||
@@ -225,8 +254,10 @@ canvas.addEventListener("click", (event) => {
 
             if (currentTurn === "w") {
                 currentTurn = "b";
+                boardOrientation = "black";
             } else {
                 currentTurn = "w";
+                boardOrientation = "white";
             }
         }
         
