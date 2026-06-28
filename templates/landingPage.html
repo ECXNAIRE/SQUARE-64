@@ -34,7 +34,6 @@
             height: 45px;
             width: 270px;
             border-radius: 12px;
-            font-weight: 700;
             border: 2px solid black;
             transition: all 0.3s ease;
             letter-spacing: 2px;
@@ -42,7 +41,6 @@
             display: flex;
             position: relative;
             align-items: center;
-            gap: 20px;
             padding: 10px;
             justify-content: center;
         }
@@ -74,13 +72,25 @@
             height: 32px;
         }
 
+        .btn:disabled {
+            cursor: not-allowed;
+            transform: none;
+            opacity: 1;
+            background-color: white;
+            color: black;
+        }
+
+        .btn:disabled:hover {
+            transform: none;
+        }
+
 
 
         /* NOO NEED TO TOUCH */
         .divider {
             display: flex;
             align-items: center;
-            width: 300px;
+            width: 350px;
             margin: 5px 0;
             color: white;
             letter-spacing: 2px;
@@ -97,7 +107,7 @@
         .divider.light {
             display: flex;
             align-items: center;
-            width: 300px;
+            width: 350px;
             margin: 5px 0;
             color: black;
             letter-spacing: 2px;
@@ -129,8 +139,8 @@
         </div>
 
         <div class="menu">
-            <button class="btn" onclick="window.location.href='/main'">
-                <img class="btnLogo" src="../static/img/googleLogo.png">GOOGLE
+            <button class="btn" disabled>
+                <img class="btnLogo" src="../static/img/googleLogo.png">GOOGLE LOGIN
             </button>
 
             <div class="divider">
@@ -138,7 +148,7 @@
             </div>
 
             <button class="btn" onclick="window.location.href='/main'">
-                <img class="btnLogo" src="../static/img/guestLogo.png">GUEST
+                <img class="btnLogo" src="../static/img/guestLogo.png">GUEST LOGIN
             </button>
             <button class="btn">ABOUT</button>
         </div>
