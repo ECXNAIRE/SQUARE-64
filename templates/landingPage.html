@@ -31,14 +31,20 @@
         }
 
         .btn {
-            height: 50px;
-            width: 250px;
+            height: 45px;
+            width: 270px;
             border-radius: 12px;
             font-weight: 700;
             border: 2px solid black;
             transition: all 0.3s ease;
             letter-spacing: 2px;
             cursor: pointer;
+            display: flex;
+            position: relative;
+            align-items: center;
+            gap: 20px;
+            padding: 10px;
+            justify-content: center;
         }
 
         .btn:hover {
@@ -59,6 +65,55 @@
             cursor: pointer;
             transition: 0.5s ease;
         }
+
+
+        .btnLogo {
+            position: absolute;
+            left: 30px;
+            width: 32px;
+            height: 32px;
+        }
+
+
+
+        /* NOO NEED TO TOUCH */
+        .divider {
+            display: flex;
+            align-items: center;
+            width: 300px;
+            margin: 5px 0;
+            color: white;
+            letter-spacing: 2px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            height: 0.8px;
+            background: white;
+        }
+
+        .divider.light {
+            display: flex;
+            align-items: center;
+            width: 300px;
+            margin: 5px 0;
+            color: black;
+            letter-spacing: 2px;
+        }
+
+        .divider.light::before,
+        .divider.light::after {
+            content: "";
+            flex: 1;
+            height: 0.8px;
+            background: black;
+        }
+
+        .divider span {
+            margin: 0 12px;
+        }
     </style>
 </head>
 
@@ -74,7 +129,17 @@
         </div>
 
         <div class="menu">
-            <button class="btn" onclick="window.location.href='/main'">PLAY</button>
+            <button class="btn" onclick="window.location.href='/main'">
+                <img class="btnLogo" src="../static/img/googleLogo.png">GOOGLE
+            </button>
+
+            <div class="divider">
+                <span>or</span>
+            </div>
+
+            <button class="btn" onclick="window.location.href='/main'">
+                <img class="btnLogo" src="../static/img/guestLogo.png">GUEST
+            </button>
             <button class="btn">ABOUT</button>
         </div>
     </div>
@@ -82,4 +147,5 @@
 
     <script src="../static/js/themeToggleFile.js"></script>
 </body>
+
 </html>

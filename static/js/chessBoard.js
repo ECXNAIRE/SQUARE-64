@@ -9,19 +9,7 @@ let currentTurn = "w";
 
 let boardOrientation = "white";
 
-if (currentTurn === "w") {
-    boardOrientation ="white";
-} else {
-    boardOrientation= "black";
-}
-
-let board = [];
-
-
-
-
-if (boardOrientation === "white") {
-    board = [
+let board = [
         ["bR", "bN", "bB", "bQ", "bK", "bB", "bN", "bR"],
         ["bP", "bP", "bP", "bP", "bP", "bP", "bP", "bP"],
         ["", "", "", "", "", "", "", ""],
@@ -31,18 +19,7 @@ if (boardOrientation === "white") {
         ["wP", "wP", "wP", "wP", "wP", "wP", "wP", "wP"],
         ["wR", "wN", "wB", "wQ", "wK", "wB", "wN", "wR"]
     ];
-} else {
-    board = [
-        ["wR", "wN", "wB", "wK", "wQ", "wB", "wN", "wR"],
-        ["wP", "wP", "wP", "wP", "wP", "wP", "wP", "wP"],
-        ["", "", "", "", "", "", "", ""],
-        ["", "", "", "", "", "", "", ""],
-        ["", "", "", "", "", "", "", ""],
-        ["", "", "", "", "", "", "", ""],
-        ["bP", "bP", "bP", "bP", "bP", "bP", "bP", "bP"],
-        ["bR", "bN", "bB", "bK", "bQ", "bB", "bN", "bR"]
-    ]
-}
+
 
 
 const pieces = {};
