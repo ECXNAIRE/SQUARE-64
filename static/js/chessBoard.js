@@ -1,6 +1,7 @@
 import { isValid } from './piecesRules.js'
 
 let isValidMove = true;
+let lastMove = null;
 
 const canvas = document.getElementById("chessBoardCanvas");
 const ctx = canvas.getContext("2d");
@@ -67,14 +68,13 @@ function drawSquares() {
             );
 
             if (row === selectedRow && column === selectedCol) {
-                ctx.strokeStyle = "yellow";
-                ctx.lineWidth = 4;
+                ctx.fillStyle = "#b3fa67";
 
-                ctx.strokeRect(
-                    offset + displayColumn * squareSize + 1.5,
-                    offset + displayRow * squareSize + 1.5,
-                    squareSize - 3,
-                    squareSize - 3
+                ctx.fillRect(
+                    offset + displayColumn * squareSize,
+                    offset + displayRow * squareSize,
+                    squareSize,
+                    squareSize
                 );
             }
         }
@@ -230,15 +230,36 @@ canvas.addEventListener("click", (event) => {
                 return
             }
 
-            isValidMove = isValid(selectedPiece, selectedRow, selectedCol, row, column, board)
+            isValidMove = isValid(selectedPiece, selectedRow, selectedCol, row, column, board, lastMove)
 
-            if (!isValidMove) {
+
+            if (!isValidMove.valid) {
                 drawBoard();
                 return;
             }
 
+            //CHECKING ENPASSANT HERE
+            if (isValidMove.enPassant) {
+                if (selectedPiece === "wP") {
+                    board[row + 1][column] = "";
+                } else {
+                    board[row - 1][column] = "";
+                }
+            }
+
+
             board[row][column] = selectedPiece;
             board[selectedRow][selectedCol] = "";
+
+
+            //EN-PASSANT MOVE STORE
+            lastMove = {
+                piece: selectedPiece,
+                fromRow: selectedRow,
+                fromCol: selectedCol,
+                toRow: row,
+                toCol: column
+            };
 
             if (currentTurn === "w") {
                 currentTurn = "b";
