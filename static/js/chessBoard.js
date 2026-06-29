@@ -61,6 +61,7 @@ function drawBoard() {
     drawSquares();
     drawPieces();
     drawCoordinates();
+    updateCaptureCounts();
 }
 
 function drawSquares() {
@@ -300,6 +301,9 @@ canvas.addEventListener("click", (event) => {
                 toCol: column
             };
 
+
+            updateCaptureCounts();
+
             if (currentTurn === "w") {
                 currentTurn = "b";
                 boardOrientation = "black";
@@ -318,3 +322,13 @@ canvas.addEventListener("click", (event) => {
 
     drawBoard();
 });
+
+
+//CAPTURE COUNTS UPDATE
+function updateCaptureCounts() {
+    for( const piece in captureCounts.whites) {
+        document.getElementById("w" + piece).textContent = captureCounts.whites[piece];
+
+        document.getElementById("b" + piece).textContent = captureCounts.blacks[piece];
+    }
+}
