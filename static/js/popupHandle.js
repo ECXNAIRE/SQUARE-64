@@ -15,3 +15,9 @@ cancelBtn.addEventListener("click", () => {
 continueBtn.addEventListener("click", () => {
     window.location.href = "/main";
 });
+
+popup.addEventListener ("click", (event) => {
+    if (event.target === popup) {
+        popup.classList.remove("show");
+    }
+})

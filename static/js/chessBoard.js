@@ -1,3 +1,7 @@
+import { isValid } from './piecesRules.js'
+
+let isValidMove = true;
+
 const canvas = document.getElementById("chessBoardCanvas");
 const ctx = canvas.getContext("2d");
 
@@ -10,15 +14,15 @@ let currentTurn = "w";
 let boardOrientation = "white";
 
 let board = [
-        ["bR", "bN", "bB", "bQ", "bK", "bB", "bN", "bR"],
-        ["bP", "bP", "bP", "bP", "bP", "bP", "bP", "bP"],
-        ["", "", "", "", "", "", "", ""],
-        ["", "", "", "", "", "", "", ""],
-        ["", "", "", "", "", "", "", ""],
-        ["", "", "", "", "", "", "", ""],
-        ["wP", "wP", "wP", "wP", "wP", "wP", "wP", "wP"],
-        ["wR", "wN", "wB", "wQ", "wK", "wB", "wN", "wR"]
-    ];
+    ["bR", "bN", "bB", "bQ", "bK", "bB", "bN", "bR"],
+    ["bP", "bP", "bP", "bP", "bP", "bP", "bP", "bP"],
+    ["", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", ""],
+    ["wP", "wP", "wP", "wP", "wP", "wP", "wP", "wP"],
+    ["wR", "wN", "wB", "wQ", "wK", "wB", "wN", "wR"]
+];
 
 
 
@@ -52,7 +56,7 @@ function drawSquares() {
 
             if (boardOrientation === "black") {
                 displayRow = 7 - row;
-                displayColumn = 7- column;
+                displayColumn = 7 - column;
             }
 
             ctx.fillRect(
@@ -69,7 +73,7 @@ function drawSquares() {
                 ctx.strokeRect(
                     offset + displayColumn * squareSize + 1.5,
                     offset + displayRow * squareSize + 1.5,
-                    squareSize -3 ,
+                    squareSize - 3,
                     squareSize - 3
                 );
             }
@@ -151,8 +155,8 @@ function drawPieces() {
                 let displayColumn = column;
 
                 if (boardOrientation === "black") {
-                    displayRow = 7- row;
-                    displayColumn = 7- column;
+                    displayRow = 7 - row;
+                    displayColumn = 7 - column;
                 }
                 ctx.drawImage(
                     pieces[piece],
@@ -186,7 +190,7 @@ canvas.addEventListener("click", (event) => {
 
     if (boardOrientation === "black") {
         row = 7 - row;
-        column = 7- column;
+        column = 7 - column;
     }
 
     if (
@@ -196,7 +200,7 @@ canvas.addEventListener("click", (event) => {
     if (selectedPiece === null) {
 
         if (board[row][column] === "") return;
-        
+
 
         //PREVENT SELECTING THE OTHER COLOR 
         if (board[row][column][0] !== currentTurn) {
@@ -226,6 +230,13 @@ canvas.addEventListener("click", (event) => {
                 return
             }
 
+            isValidMove = isValid(selectedPiece, selectedRow, selectedCol, row, column, board)
+
+            if (!isValidMove) {
+                drawBoard();
+                return;
+            }
+
             board[row][column] = selectedPiece;
             board[selectedRow][selectedCol] = "";
 
@@ -236,8 +247,10 @@ canvas.addEventListener("click", (event) => {
                 currentTurn = "w";
                 boardOrientation = "white";
             }
+
+
         }
-        
+
         selectedPiece = null;
         selectedRow = -1;
         selectedCol = -1;
