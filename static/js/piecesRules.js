@@ -8,7 +8,14 @@ export function isValid(piece, fromRow, fromCol, toRow, toCol, board, lastMove) 
         return pawnMove(piece, fromRow, fromCol, toRow, toCol, board, lastMove)
     }
 
-    return false
+    if (pieceName === "N") {
+        return knightMove(piece, fromRow, fromCol, toRow, toCol, board)
+    }
+
+    return {
+        valid: false,
+        enPassant: false
+    }
 
 }
 
@@ -39,12 +46,12 @@ function pawnMove(piece, fromRow, fromCol, toRow, toCol, board, lastMove) {
             if (target !== "" && target[0] !== "w") {
                 return {
                     valid: true,
-                    enPassant:false
+                    enPassant: false
                 }
             }
         }
 
-        if ( 
+        if (
             fromRow === 3 &&
             Math.abs(toCol - fromCol) === 1 &&
             toRow - fromRow === -1 &&
@@ -90,7 +97,7 @@ function pawnMove(piece, fromRow, fromCol, toRow, toCol, board, lastMove) {
 
         }
 
-        if ( 
+        if (
             fromRow === 4 &&
             Math.abs(toCol - fromCol) === 1 &&
             toRow - fromRow === 1 &&
@@ -108,8 +115,47 @@ function pawnMove(piece, fromRow, fromCol, toRow, toCol, board, lastMove) {
         }
     }
 
+    return  {
+        valid: false,
+        enPassant:false
+    }
+}
 
 
 
-    return false
+function knightMove(piece, fromRow, fromCol, toRow, toCol, board) {
+
+    const rowDiff = Math.abs(toRow - fromRow);
+    const colDiff = Math.abs(toCol - fromCol);
+
+
+    if (
+        !((rowDiff === 2 && colDiff === 1) ||
+        (rowDiff === 1 && colDiff === 2))
+    ) return {
+        valid: false,
+        enPassant: false
+    }
+
+    const target = board[toRow][toCol];
+
+    if(target === "") {
+        return {
+            valid:true,
+            enPassant:false
+        }
+    }
+
+    if( target === "" || target[0] !== piece[0]) {
+        return {
+            valid: true,
+            enPassant: false
+        }
+    }
+
+
+    return {
+        valid:false,
+        enPassant: false
+    }
 }
