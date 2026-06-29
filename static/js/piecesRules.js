@@ -22,15 +22,32 @@ function pawnMove(piece, fromRow, fromCol, toRow, toCol, board) {
                 if (fromRow === 6 && toRow === 4 && fromCol == toCol && board[toRow][toCol] === "" && board[5][toCol] === "") {
                     return true
                 }
+
+                if (Math.abs(toCol - fromCol) === 1 && toRow === fromRow - 1) {
+                    const target = board[toRow][toCol];
+
+                    if (target !== "" && target[0] !== "w") {
+                        return true
+                    }
+                }
             }
 
             if (piece === "bP") {
-                if (toCol === fromCol && toRow === fromRow + 1 && board[toRow][toCol] === "") {
+                if ((toCol === !null && toCol === fromCol + 1 && toCol === fromCol -1) || toCol === fromCol && toRow === fromRow + 1 && board[toRow][toCol] === "") {
                     return true
                 }
 
                 if (fromRow === 1 && toRow === 3 && fromCol == toCol && board[toRow][toCol] === "" && board[2][toCol] === "") {
                     return true
+                }
+
+                if (Math.abs(toCol - fromCol) === 1 && toRow === fromRow +1) {
+                    const target = board[toRow][toCol] 
+
+                    if (target !== "" && target[0] !=="b") {
+                        return true
+                    }
+                    
                 }
             }
 
