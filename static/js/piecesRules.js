@@ -12,6 +12,11 @@ export function isValid(piece, fromRow, fromCol, toRow, toCol, board, lastMove) 
         return knightMove(piece, fromRow, fromCol, toRow, toCol, board)
     }
 
+
+    if (pieceName === "B") {
+        return bishopMove(piece, fromRow, fromCol, toRow, toCol, board)
+    }
+
     return {
         valid: false,
         enPassant: false
@@ -115,9 +120,9 @@ function pawnMove(piece, fromRow, fromCol, toRow, toCol, board, lastMove) {
         }
     }
 
-    return  {
+    return {
         valid: false,
-        enPassant:false
+        enPassant: false
     }
 }
 
@@ -131,7 +136,7 @@ function knightMove(piece, fromRow, fromCol, toRow, toCol, board) {
 
     if (
         !((rowDiff === 2 && colDiff === 1) ||
-        (rowDiff === 1 && colDiff === 2))
+            (rowDiff === 1 && colDiff === 2))
     ) return {
         valid: false,
         enPassant: false
@@ -139,14 +144,14 @@ function knightMove(piece, fromRow, fromCol, toRow, toCol, board) {
 
     const target = board[toRow][toCol];
 
-    if(target === "") {
+    if (target === "") {
         return {
-            valid:true,
-            enPassant:false
+            valid: true,
+            enPassant: false
         }
     }
 
-    if( target === "" || target[0] !== piece[0]) {
+    if (target === "" || target[0] !== piece[0]) {
         return {
             valid: true,
             enPassant: false
@@ -155,7 +160,55 @@ function knightMove(piece, fromRow, fromCol, toRow, toCol, board) {
 
 
     return {
-        valid:false,
+        valid: false,
         enPassant: false
     }
+}
+
+
+
+function bishopMove(piece, fromRow, fromCol, toRow, toCol, board) {
+    if (Math.abs(toRow - fromRow) !== Math.abs(toCol - fromCol)) {
+        return {
+            valid: false,
+            enPassant: false
+        }
+    }
+
+    const rowStep = Math.sign(toRow - fromRow);
+    const colStep = Math.sign(toCol - fromCol);
+
+
+    //LOOPING TO CHECK EVERY GRID BETWEEN THEM 
+    let r = fromRow + rowStep;
+    let c = fromCol + colStep;
+
+
+    while (r !== toRow && c !== toCol) {
+        if (board[r][c] !== "") {
+            return {
+                valid: false,
+                enPassant: false
+            };
+        }
+
+        r += rowStep;
+        c += colStep;
+    }
+
+
+    const target = board[toRow][toCol]
+
+    if (target === "" || target[0] !== piece[0]) {
+        return {
+            valid: true,
+            enPassant: false
+        };
+    }
+
+
+    return {
+        valid: false,
+        enPassant: false
+    };
 }
