@@ -18,10 +18,18 @@ function pawnMove(piece, fromRow, fromCol, toRow, toCol, board) {
                 if (toCol === fromCol && toRow === fromRow - 1 && board[toRow][toCol] === "") {
                     return true
                 }
+
+                if (fromRow === 6 && toRow === 4 && fromCol == toCol && board[toRow][toCol] === "" && board[5][toCol] === "") {
+                    return true
+                }
             }
 
             if (piece === "bP") {
                 if (toCol === fromCol && toRow === fromRow + 1 && board[toRow][toCol] === "") {
+                    return true
+                }
+
+                if (fromRow === 1 && toRow === 3 && fromCol == toCol && board[toRow][toCol] === "" && board[2][toCol] === "") {
                     return true
                 }
             }
