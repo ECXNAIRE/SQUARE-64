@@ -26,6 +26,10 @@ export function isValid(piece, fromRow, fromCol, toRow, toCol, board, lastMove) 
         return queenMove(piece, fromRow, fromCol, toRow, toCol, board)
     }
 
+    if(pieceName === "K") {
+        return kingMove(piece, fromRow, fromCol, toRow, toCol, board)
+    }
+
     return {
         valid: false,
         enPassant: false
@@ -280,4 +284,34 @@ function queenMove( piece, fromRow, fromCol, toRow, toCol, board) {
     }
 
     return bishopMove(piece, fromRow, fromCol, toRow, toCol, board)
+}
+
+
+
+function kingMove(piece, fromRow, fromCol, toRow, toCol, board) {
+    const rowDiff = Math.abs(toRow - fromRow);
+    const colDiff = Math.abs(toCol- fromCol);
+
+
+    if (rowDiff > 1 || colDiff > 1) {
+        return {
+            valid: false,
+            enPassant : false
+        }
+    }
+
+
+    const target = board[toRow][toCol] 
+
+    if (target === "" || target[0] !== piece[0]){
+        return {
+            valid: true,
+            enPassant: false
+        }
+    }
+
+    return {
+        valid: false,
+        enPassant:false
+    }
 }
