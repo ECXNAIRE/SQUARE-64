@@ -11,6 +11,7 @@
             background-color: rgb(19, 19, 19);
             cursor: url("../static/cursor/cursorW.png")8 8, auto;
             transition: background-color 0.5s ease;
+            font-style: sans-serif;
         }
 
         .mainArea {
@@ -124,6 +125,73 @@
         .divider span {
             margin: 0 12px;
         }
+
+
+
+        /*POPUP CSS*/
+        .popupOverlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: .25s;
+        }
+
+        .popupOverlay.show {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .popup {
+            width: 360px;
+            background: #1c1c1c;
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid #ffffff88;
+            text-align: center;
+            transform: scale(.95);
+            transition: .25s;
+        }
+
+        .popupOverlay.show.popup {
+            transform: scale(1);
+        }
+
+        .popupButtons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+        }
+
+        .popupBtn {
+            width: 140px;
+            height: 45px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: .2s;
+        }
+
+        .popupBtn:hover {
+            transform: scale(1.05);
+        }
+
+        #cancelBtn {
+            background: #ffffff;
+            color: rgb(0, 0, 0);
+        }
+
+        #continueBtn {
+            background: #55a700;
+            color: rgb(0, 0, 0);
+        }
     </style>
 </head>
 
@@ -147,7 +215,7 @@
                 <span>or</span>
             </div>
 
-            <button class="btn" onclick="window.location.href='/main'">
+            <button class="btn" id="guestLoginBtn">
                 <img class="btnLogo" src="../static/img/guestLogo.png">GUEST LOGIN
             </button>
             <button class="btn">ABOUT</button>
@@ -155,7 +223,23 @@
     </div>
 
 
+
+    <div class="popupOverlay" id="guestPopup">
+        <div class="popup">
+            <h2>CONTINUE AS GUEST ?</h2>
+
+            <p>This session won't be saved. Match history, statistics and saved opponents will not be available.</p>
+
+            <div class="popupButtons">
+                <button id="continueBtn" class="popupBtn">CONTINUE</button>
+                <button id="cancelBtn" class="popupBtn">CANCEL</button>
+            </div>
+        </div>
+    </div>
+
+
     <script src="../static/js/themeToggleFile.js"></script>
+    <script src="../static/js/popupHandle.js"></script>
 </body>
 
 </html>
