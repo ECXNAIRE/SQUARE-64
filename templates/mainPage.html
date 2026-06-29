@@ -110,16 +110,14 @@
 
         .playerData {
             border: 2px solid rgba(0, 0, 0, 0);
-            height: 500px;
             display: flex;
-            flex: 1;
             flex-direction: column;
             align-items: center;
-            gap:10px;
+            gap: 10px;
+            margin-top: 65px;
         }
 
         .player {
-            flex: 1;
             border: 2px solid black;
             border-radius: 12px;
             width: 100%;
@@ -127,7 +125,7 @@
             flex-direction: column;
             align-items: center;
             background-color: #d6fabf;
-            padding:5px;
+            padding: 5px;
         }
 
         .capturedPieces {
@@ -165,10 +163,17 @@
             font-weight: bold;
         }
 
+        .player h3 {
+            margin: 8px 0;
+            font-size: 22px;
+        }
+
         .time {
-            border: 1px solid black;
-            height: 100px;
+            border: 1px solid #555;
+            height: 80px;
             width: 90%;
+            border-radius: 12px;
+            background-color: white;
         }
     </style>
 </head>
@@ -185,36 +190,6 @@
                     <h3>WHITE</h3>
 
                     <div class="capturedPieces" id="capturedPiecesBlack">
-                        <div class="capturedBox">
-                            <img src="../static/assets/wQ.svg">
-                            <span>0</span>
-                        </div>
-                        <div class="capturedBox">
-                            <img src="../static/assets/wB.svg">
-                            <span>0</span>
-                        </div>
-                        <div class="capturedBox">
-                            <img src="../static/assets/wR.svg">
-                            <span>0</span>
-                        </div>
-                        <div class="capturedBox">
-                            <img src="../static/assets/wN.svg">
-                            <span>0</span>
-                        </div>
-                        <div class="capturedBox">
-                            <img src="../static/assets/wP.svg">
-                            <span>0</span>
-                        </div>
-                    </div>
-
-
-
-                    <div class="time" id="timeWhite"></div>
-                </div>
-
-                <div class="player" id="playerBlack">
-                    <h3>BLACK</h3>
-                    <div class="capturedPieces" id="capturedPiecesWhite">
                         <div class="capturedBox">
                             <img src="../static/assets/bQ.svg">
                             <span>0</span>
@@ -233,6 +208,36 @@
                         </div>
                         <div class="capturedBox">
                             <img src="../static/assets/bP.svg">
+                            <span>0</span>
+                        </div>
+                    </div>
+
+
+
+                    <div class="time" id="timeWhite"></div>
+                </div>
+
+                <div class="player" id="playerBlack">
+                    <h3>BLACK</h3>
+                    <div class="capturedPieces" id="capturedPiecesWhite">
+                        <div class="capturedBox">
+                            <img src="../static/assets/wQ.svg">
+                            <span>0</span>
+                        </div>
+                        <div class="capturedBox">
+                            <img src="../static/assets/wB.svg">
+                            <span>0</span>
+                        </div>
+                        <div class="capturedBox">
+                            <img src="../static/assets/wR.svg">
+                            <span>0</span>
+                        </div>
+                        <div class="capturedBox">
+                            <img src="../static/assets/wN.svg">
+                            <span>0</span>
+                        </div>
+                        <div class="capturedBox">
+                            <img src="../static/assets/wP.svg">
                             <span>0</span>
                         </div>
                     </div>

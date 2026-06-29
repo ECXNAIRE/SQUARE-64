@@ -1,5 +1,23 @@
 import { isValid } from './piecesRules.js'
 
+
+const captureCounts = {
+    whites: {
+        P: 0,
+        R: 0,
+        B: 0,
+        Q: 0,
+        N: 0
+    },
+    blacks: {
+        P: 0,
+        R: 0,
+        B: 0,
+        Q: 0,
+        N: 0
+    }
+}
+
 let isValidMove = true;
 let lastMove = null;
 
@@ -238,12 +256,33 @@ canvas.addEventListener("click", (event) => {
                 return;
             }
 
+            const target = board[row][column];
+
+            if (target !== "") {
+                const color = target[0];
+                const capturedPiece = target[1];
+
+                if (color === "w") {
+                    captureCounts.whites[capturedPiece]++;
+                } else {
+                    captureCounts.blacks[capturedPiece]++;
+                }
+            }
+
+
+
             //CHECKING ENPASSANT HERE
             if (isValidMove.enPassant) {
-                if (selectedPiece === "wP") {
-                    board[row + 1][column] = "";
+                const capturedPawnRow = lastMove.toRow;
+                const capturedPawnCol = lastMove.toCol;
+
+                board[capturedPawnRow][capturedPawnCol] = "";
+
+                const capturedPieceColor = lastMove.piece[0]
+                if (capturedPieceColor === 'w') {
+                    captureCounts.whites.P++;
                 } else {
-                    board[row - 1][column] = "";
+                    captureCounts.blacks.P++;
                 }
             }
 

@@ -89,7 +89,7 @@ function pawnMove(piece, fromRow, fromCol, toRow, toCol, board, lastMove) {
     }
 
     if (piece === "bP") {
-        if ((toCol === !null && toCol === fromCol + 1 && toCol === fromCol - 1) || toCol === fromCol && toRow === fromRow + 1 && board[toRow][toCol] === "") {
+        if (toCol === fromCol && toRow === fromRow + 1 && board[toRow][toCol] === "") {
             return {
                 valid: true,
                 enPassant: false
@@ -156,13 +156,6 @@ function knightMove(piece, fromRow, fromCol, toRow, toCol, board) {
     }
 
     const target = board[toRow][toCol];
-
-    if (target === "") {
-        return {
-            valid: true,
-            enPassant: false
-        }
-    }
 
     if (target === "" || target[0] !== piece[0]) {
         return {
