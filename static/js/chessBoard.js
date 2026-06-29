@@ -1,4 +1,5 @@
 import { isValid } from './piecesRules.js'
+import { canCastle } from './specialRules.js';
 
 
 const captureCounts = {
@@ -17,6 +18,16 @@ const captureCounts = {
         N: 0
     }
 }
+
+const hasMoved = {
+    wK = false,
+    bK = false,
+    wRLeft = false,
+    wRRight = false,
+    bRLeft = false,
+    bRRight = false
+}
+
 
 let isValidMove = true;
 let lastMove = null;
@@ -249,7 +260,7 @@ canvas.addEventListener("click", (event) => {
                 return
             }
 
-            isValidMove = isValid(selectedPiece, selectedRow, selectedCol, row, column, board, lastMove)
+            isValidMove = isValid(selectedPiece, selectedRow, selectedCol, row, column, board, lastMove, hasMoved)
 
 
             if (!isValidMove.valid) {
@@ -273,7 +284,7 @@ canvas.addEventListener("click", (event) => {
 
 
             //CHECKING ENPASSANT HERE
-            if (isValidMove.enPassant) {
+            if (board[selectedRow][selectedCol][1]=== "P" && isValidMove.enPassant) {
                 const capturedPawnRow = lastMove.toRow;
                 const capturedPawnCol = lastMove.toCol;
 
@@ -290,6 +301,20 @@ canvas.addEventListener("click", (event) => {
 
             board[row][column] = selectedPiece;
             board[selectedRow][selectedCol] = "";
+
+
+            //UPDATING HASMOVED 
+
+            if (selectedPiece === "wK") hasMoved.wK = true;
+            if (selectedPiece === "bK") hasMoved.bK = true;
+            if (selectedPiece === "wR") {
+                if (selectedCol === 0) hasMoved.wRLeft = true;
+                if (selectedCol === 7) hasMoved.wRRight = true;
+            }
+            if (selectedPiece === "bR") {
+                if (selectedCol === 0) hasMoved.bRLeft = true;
+                if (selectedCol === 7) hasMoved.bRRight = true;
+            }
 
 
             //EN-PASSANT MOVE STORE
@@ -326,7 +351,7 @@ canvas.addEventListener("click", (event) => {
 
 //CAPTURE COUNTS UPDATE
 function updateCaptureCounts() {
-    for( const piece in captureCounts.whites) {
+    for (const piece in captureCounts.whites) {
         document.getElementById("w" + piece).textContent = captureCounts.whites[piece];
 
         document.getElementById("b" + piece).textContent = captureCounts.blacks[piece];

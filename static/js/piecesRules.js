@@ -1,5 +1,5 @@
-
-export function isValid(piece, fromRow, fromCol, toRow, toCol, board, lastMove) {
+import { canCastle } from './specialRules.js';
+export function isValid(piece, fromRow, fromCol, toRow, toCol, board, lastMove, hasMoved) {
     const pieceName = piece[1];
 
     //PAWN RN
@@ -27,7 +27,7 @@ export function isValid(piece, fromRow, fromCol, toRow, toCol, board, lastMove) 
     }
 
     if(pieceName === "K") {
-        return kingMove(piece, fromRow, fromCol, toRow, toCol, board)
+        return kingMove(piece, fromRow, fromCol, toRow, toCol, board, hasMoved)
     }
 
     return {
@@ -150,35 +150,23 @@ function knightMove(piece, fromRow, fromCol, toRow, toCol, board) {
     if (
         !((rowDiff === 2 && colDiff === 1) ||
             (rowDiff === 1 && colDiff === 2))
-    ) return {
-        valid: false,
-        enPassant: false
-    }
+    ) return false
 
     const target = board[toRow][toCol];
 
     if (target === "" || target[0] !== piece[0]) {
-        return {
-            valid: true,
-            enPassant: false
-        }
+        return true
     }
 
 
-    return {
-        valid: false,
-        enPassant: false
-    }
+    return false
 }
 
 
 
 function bishopMove(piece, fromRow, fromCol, toRow, toCol, board) {
     if (Math.abs(toRow - fromRow) !== Math.abs(toCol - fromCol)) {
-        return {
-            valid: false,
-            enPassant: false
-        }
+        return false
     }
 
     const rowStep = Math.sign(toRow - fromRow);
@@ -192,10 +180,7 @@ function bishopMove(piece, fromRow, fromCol, toRow, toCol, board) {
 
     while (r !== toRow && c !== toCol) {
         if (board[r][c] !== "") {
-            return {
-                valid: false,
-                enPassant: false
-            };
+            return false
         }
 
         r += rowStep;
@@ -206,27 +191,18 @@ function bishopMove(piece, fromRow, fromCol, toRow, toCol, board) {
     const target = board[toRow][toCol]
 
     if (target === "" || target[0] !== piece[0]) {
-        return {
-            valid: true,
-            enPassant: false
-        };
+        return true
     }
 
 
-    return {
-        valid: false,
-        enPassant: false
-    };
+    return false
 }
 
 
 
 function rookMove(piece, fromRow, fromCol, toRow, toCol, board) {
     if ( fromRow !== toRow && fromCol !== toCol) {
-        return {
-            valid: false,
-            enPassant: false
-        }
+        return false
     }
 
     const rowStep = Math.sign(toRow - fromRow) ;
@@ -242,10 +218,7 @@ function rookMove(piece, fromRow, fromCol, toRow, toCol, board) {
 
     while (c !== toCol || r !== toRow) {
         if (board[r][c] !== "") {
-            return {
-                valid: false,
-                enPassant: false
-            }
+            return false
         }
 
         r += rowStep;
@@ -256,16 +229,10 @@ function rookMove(piece, fromRow, fromCol, toRow, toCol, board) {
     const target = board[toRow][toCol]
 
     if(target === "" || target[0] !== piece[0]) {
-        return {
-            valid: true,
-            enPassant: false
-        }
+        return true
     }
 
-    return {
-        valid: false,
-        enPassant: false
-    }
+    return false
 }
 
 
@@ -281,30 +248,27 @@ function queenMove( piece, fromRow, fromCol, toRow, toCol, board) {
 
 
 
-function kingMove(piece, fromRow, fromCol, toRow, toCol, board) {
+function kingMove(piece, fromRow, fromCol, toRow, toCol, board, hasMoved) {
     const rowDiff = Math.abs(toRow - fromRow);
     const colDiff = Math.abs(toCol- fromCol);
 
+    if(
+        piece === "wK" &&
+        hasMoved.wK === false ) {
+            if (hasMoved.wR)
+        }
+
 
     if (rowDiff > 1 || colDiff > 1) {
-        return {
-            valid: false,
-            enPassant : false
-        }
+        return false
     }
 
 
     const target = board[toRow][toCol] 
 
     if (target === "" || target[0] !== piece[0]){
-        return {
-            valid: true,
-            enPassant: false
-        }
+        return true
     }
 
-    return {
-        valid: false,
-        enPassant:false
-    }
+    return false
 }
