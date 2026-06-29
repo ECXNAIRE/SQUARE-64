@@ -1,4 +1,4 @@
-import { canCastle } from './specialRules.js';
+
 export function isValid(piece, fromRow, fromCol, toRow, toCol, board, lastMove, hasMoved) {
     const pieceName = piece[1];
 
@@ -26,7 +26,7 @@ export function isValid(piece, fromRow, fromCol, toRow, toCol, board, lastMove, 
         return queenMove(piece, fromRow, fromCol, toRow, toCol, board)
     }
 
-    if(pieceName === "K") {
+    if (pieceName === "K") {
         return kingMove(piece, fromRow, fromCol, toRow, toCol, board, hasMoved)
     }
 
@@ -201,18 +201,18 @@ function bishopMove(piece, fromRow, fromCol, toRow, toCol, board) {
 
 
 function rookMove(piece, fromRow, fromCol, toRow, toCol, board) {
-    if ( fromRow !== toRow && fromCol !== toCol) {
+    if (fromRow !== toRow && fromCol !== toCol) {
         return false
     }
 
-    const rowStep = Math.sign(toRow - fromRow) ;
-    const colStep = Math.sign(toCol - fromCol) ;
+    const rowStep = Math.sign(toRow - fromRow);
+    const colStep = Math.sign(toCol - fromCol);
 
 
 
     //LOOPING TO CHECK EVERY GRID 
 
-    let r = fromRow+ rowStep;
+    let r = fromRow + rowStep;
     let c = fromCol + colStep;
 
 
@@ -228,7 +228,7 @@ function rookMove(piece, fromRow, fromCol, toRow, toCol, board) {
 
     const target = board[toRow][toCol]
 
-    if(target === "" || target[0] !== piece[0]) {
+    if (target === "" || target[0] !== piece[0]) {
         return true
     }
 
@@ -237,9 +237,9 @@ function rookMove(piece, fromRow, fromCol, toRow, toCol, board) {
 
 
 
-function queenMove( piece, fromRow, fromCol, toRow, toCol, board) {
-    const rook = rookMove(piece, fromRow, fromCol, toRow, toCol, board) 
-    if(rook.valid) {
+function queenMove(piece, fromRow, fromCol, toRow, toCol, board) {
+    const rook = rookMove(piece, fromRow, fromCol, toRow, toCol, board)
+    if (rook.valid) {
         return rook
     }
 
@@ -250,25 +250,66 @@ function queenMove( piece, fromRow, fromCol, toRow, toCol, board) {
 
 function kingMove(piece, fromRow, fromCol, toRow, toCol, board, hasMoved) {
     const rowDiff = Math.abs(toRow - fromRow);
-    const colDiff = Math.abs(toCol- fromCol);
+    const colDiff = Math.abs(toCol - fromCol);
 
-    if(
-        piece === "wK" &&
-        hasMoved.wK === false ) {
-            if (hasMoved.wR)
-        }
+    if
+        (piece === "wK" &&
+        hasMoved.wK === false) {
+        if (hasMoved.wRRight === false && fromCol === 4 && toCol === 6 && board[7][5] === "" && board[7][6] === "") {
+            return {
+                valid: true,
+                castle: true
+            }
+        };
+
+        if (hasMoved.wRLeft === false && fromCol === 4 && toCol === 2 && board[7][3] === "" && board[7][2] === "" && board[7][1] === "") {
+            return {
+                valid: true,
+                castle: true
+            }
+        };
+
+    }
+
+    if
+        (piece === "bK" &&
+        hasMoved.bK === false) {
+        if (hasMoved.bRRight === false && fromCol === 4 && toCol === 6 && board[0][5] === "" && board[0][6] === "") {
+            return {
+                valid: true,
+                castle: true
+            }
+        };
+
+        if (hasMoved.bRLeft === false && fromCol === 4 && toCol === 2 && board[0][3] === "" && board[0][2] === "" && board[0][1] === "") {
+            return {
+                valid: true,
+                castle: true
+            }
+        };
+
+    }
 
 
     if (rowDiff > 1 || colDiff > 1) {
-        return false
+        return {
+            valid: false,
+            castle: false
+        }
     }
 
 
-    const target = board[toRow][toCol] 
+    const target = board[toRow][toCol]
 
-    if (target === "" || target[0] !== piece[0]){
-        return true
+    if (target === "" || target[0] !== piece[0]) {
+        return {
+            valid: true,
+            castle: false
+        }
     }
 
-    return false
+    return {
+        valid: false,
+        castle: false
+    }
 }

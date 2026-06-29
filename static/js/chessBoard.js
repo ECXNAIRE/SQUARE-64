@@ -1,5 +1,4 @@
 import { isValid } from './piecesRules.js'
-import { canCastle } from './specialRules.js';
 
 
 const captureCounts = {
@@ -284,7 +283,7 @@ canvas.addEventListener("click", (event) => {
 
 
             //CHECKING ENPASSANT HERE
-            if (board[selectedRow][selectedCol][1]=== "P" && isValidMove.enPassant) {
+            if (board[selectedRow][selectedCol][1] === "P" && isValidMove.enPassant) {
                 const capturedPawnRow = lastMove.toRow;
                 const capturedPawnCol = lastMove.toCol;
 
@@ -296,6 +295,34 @@ canvas.addEventListener("click", (event) => {
                 } else {
                     captureCounts.blacks.P++;
                 }
+            }
+
+            // CHECKING CALSTLE MOVE
+            if (isValidMove.castle) {
+
+                //white kingside
+                if (selectedPiece === "wK" && column === 6) {
+                    board[7][5] = board[7][7];
+                    board[7][7] = "";
+                };
+
+                //white queenside
+                if (selectedPiece === "wK" && column === 2) {
+                    board[7][3] = board[7][0];
+                    board[7][0] = "";
+                };
+
+
+                //black kingside 
+                if (selectedPiece === "bK" && column === 6) {
+                    board[0][5] = board[0][7];
+                    board[0][7] = "";
+                };
+
+                if (selectedPiece === "bK" && column === 2) {
+                    board[0][3] = board[0][0];
+                    board[0][0] = "";
+                };
             }
 
 
