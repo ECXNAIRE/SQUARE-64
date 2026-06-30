@@ -150,23 +150,25 @@ function knightMove(piece, fromRow, fromCol, toRow, toCol, board) {
     if (
         !((rowDiff === 2 && colDiff === 1) ||
             (rowDiff === 1 && colDiff === 2))
-    ) return false
+    ) return {
+        valid: false
+    }
 
     const target = board[toRow][toCol];
 
     if (target === "" || target[0] !== piece[0]) {
-        return true
+        return { valid: true }
     }
 
 
-    return false
+    return { valid: false }
 }
 
 
 
 function bishopMove(piece, fromRow, fromCol, toRow, toCol, board) {
     if (Math.abs(toRow - fromRow) !== Math.abs(toCol - fromCol)) {
-        return false
+        return { valid: false }
     }
 
     const rowStep = Math.sign(toRow - fromRow);
@@ -180,7 +182,7 @@ function bishopMove(piece, fromRow, fromCol, toRow, toCol, board) {
 
     while (r !== toRow && c !== toCol) {
         if (board[r][c] !== "") {
-            return false
+            return { valid: false }
         }
 
         r += rowStep;
@@ -191,18 +193,18 @@ function bishopMove(piece, fromRow, fromCol, toRow, toCol, board) {
     const target = board[toRow][toCol]
 
     if (target === "" || target[0] !== piece[0]) {
-        return true
+        return { valid: true }
     }
 
 
-    return false
+    return { valid: false }
 }
 
 
 
 function rookMove(piece, fromRow, fromCol, toRow, toCol, board) {
     if (fromRow !== toRow && fromCol !== toCol) {
-        return false
+        return { valid: false }
     }
 
     const rowStep = Math.sign(toRow - fromRow);
@@ -218,7 +220,7 @@ function rookMove(piece, fromRow, fromCol, toRow, toCol, board) {
 
     while (c !== toCol || r !== toRow) {
         if (board[r][c] !== "") {
-            return false
+            return { valid: false }
         }
 
         r += rowStep;
@@ -229,10 +231,10 @@ function rookMove(piece, fromRow, fromCol, toRow, toCol, board) {
     const target = board[toRow][toCol]
 
     if (target === "" || target[0] !== piece[0]) {
-        return true
+        return { valid: true }
     }
 
-    return false
+    return { valid: false }
 }
 
 
@@ -255,14 +257,14 @@ function kingMove(piece, fromRow, fromCol, toRow, toCol, board, hasMoved) {
     if
         (piece === "wK" &&
         hasMoved.wK === false) {
-        if (hasMoved.wRRight === false && fromCol === 4 && toCol === 6 && board[7][5] === "" && board[7][6] === "") {
+        if (hasMoved.wRRight === false && fromCol === 4 && toCol === 6 && board[7][5] === "" && board[7][6] === "" && board[7][7] === "wR") {
             return {
                 valid: true,
                 castle: true
             }
         };
 
-        if (hasMoved.wRLeft === false && fromCol === 4 && toCol === 2 && board[7][3] === "" && board[7][2] === "" && board[7][1] === "") {
+        if (hasMoved.wRLeft === false && fromCol === 4 && toCol === 2 && board[7][3] === "" && board[7][2] === "" && board[7][1] === "" && board[7][0] === "wR") {
             return {
                 valid: true,
                 castle: true
@@ -274,14 +276,14 @@ function kingMove(piece, fromRow, fromCol, toRow, toCol, board, hasMoved) {
     if
         (piece === "bK" &&
         hasMoved.bK === false) {
-        if (hasMoved.bRRight === false && fromCol === 4 && toCol === 6 && board[0][5] === "" && board[0][6] === "") {
+        if (hasMoved.bRRight === false && fromCol === 4 && toCol === 6 && board[0][5] === "" && board[0][6] === "" && board[0][7] === "bR") {
             return {
                 valid: true,
                 castle: true
             }
         };
 
-        if (hasMoved.bRLeft === false && fromCol === 4 && toCol === 2 && board[0][3] === "" && board[0][2] === "" && board[0][1] === "") {
+        if (hasMoved.bRLeft === false && fromCol === 4 && toCol === 2 && board[0][3] === "" && board[0][2] === "" && board[0][1] === "" && board[0][0] === "bR") {
             return {
                 valid: true,
                 castle: true

@@ -19,12 +19,12 @@ const captureCounts = {
 }
 
 const hasMoved = {
-    wK = false,
-    bK = false,
-    wRLeft = false,
-    wRRight = false,
-    bRLeft = false,
-    bRRight = false
+    wK: false,
+    bK: false,
+    wRLeft: false,
+    wRRight: false,
+    bRLeft: false,
+    bRRight: false
 }
 
 
@@ -298,7 +298,7 @@ canvas.addEventListener("click", (event) => {
             }
 
             // CHECKING CALSTLE MOVE
-            if (isValidMove.castle) {
+            if (board[selectedRow][selectedCol][1] === "K" && isValidMove.castle) {
 
                 //white kingside
                 if (selectedPiece === "wK" && column === 6) {
