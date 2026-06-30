@@ -1,5 +1,5 @@
 import { isValid } from './piecesRules.js'
-import { isKingInCheck } from './gameRules.js';
+import { isKingInCheck, isSquareAttacked } from './gameRules.js';
 
 
 const captureCounts = {
@@ -307,28 +307,51 @@ canvas.addEventListener("click", async (event) => {
             if (board[selectedRow][selectedCol][1] === "K" && isValidMove.castle) {
 
                 //white kingside
-                if (selectedPiece === "wK" && column === 6) {
+                if (selectedPiece === "wK" &&
+                    column === 6 &&
+                    !isSquareAttacked(7, 4, "w", board, lastMove, hasMoved) &&
+                    !isSquareAttacked(7, 5, "w", board, lastMove, hasMoved) &&
+                    !isSquareAttacked(7, 6, "w", board, lastMove, hasMoved)
+                ) {
                     board[7][5] = board[7][7];
                     board[7][7] = "";
                 };
 
                 //white queenside
-                if (selectedPiece === "wK" && column === 2) {
+                if (selectedPiece === "wK" &&
+                    column === 2 &&
+                    !isSquareAttacked(7, 4, "w", board, lastMove, hasMoved) &&
+                    !isSquareAttacked(7, 3, "w", board, lastMove, hasMoved) &&
+                    !isSquareAttacked(7, 2, "w", board, lastMove, hasMoved)
+                ) {
                     board[7][3] = board[7][0];
                     board[7][0] = "";
                 };
 
 
                 //black kingside 
-                if (selectedPiece === "bK" && column === 6) {
+                if (selectedPiece === "bK" &&
+                    column === 6 &&
+                    !isSquareAttacked(0, 4, "b", board, lastMove, hasMoved) &&
+                    !isSquareAttacked(0, 5, "b", board, lastMove, hasMoved) &&
+                    !isSquareAttacked(0, 6, "b", board, lastMove, hasMoved)
+                ) {
                     board[0][5] = board[0][7];
                     board[0][7] = "";
                 };
 
-                if (selectedPiece === "bK" && column === 2) {
+                if (selectedPiece === "bK" &&
+                    column === 2 &&
+                    !isSquareAttacked(0, 4, "b", board, lastMove, hasMoved) &&
+                    !isSquareAttacked(0, 3, "b", board, lastMove, hasMoved) &&
+                    !isSquareAttacked(0, 2, "b", board, lastMove, hasMoved)
+                ) {
                     board[0][3] = board[0][0];
                     board[0][0] = "";
                 };
+
+
+                drawBoard();
             }
 
 

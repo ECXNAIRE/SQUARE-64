@@ -39,3 +39,24 @@ export function isKingInCheck(board, color, lastMove, hasMoved) {
 
     return false
 }
+
+
+
+export function isSquareAttacked(checkRow, checkCol, color, board, lastMove, hasMoved) {
+
+    for (let row = 0; row < 8; row++) {
+        for (let col = 0; col < 8; col++) {
+            const piece = board[row][col];
+            
+            if(piece !== "" && piece[0] !== color) {
+                const check = isValid(piece, row, col, checkRow, checkCol, board, lastMove, hasMoved, true)
+
+                if (check) {
+                    return true
+                }
+            }
+        }
+    }
+
+    return false
+}
