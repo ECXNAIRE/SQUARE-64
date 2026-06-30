@@ -1,4 +1,5 @@
 import { isValid } from './piecesRules.js'
+import { isKingInCheck } from './gameRules.js';
 
 
 const captureCounts = {
@@ -202,12 +203,15 @@ function drawPieces() {
 
 
 //MOVE THE PIECES
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 let selectedPiece = null;
 let selectedRow = -1;
 let selectedCol = -1;
 
 
-canvas.addEventListener("click", (event) => {
+canvas.addEventListener("click", async (event) => {
 
     const rect = canvas.getBoundingClientRect();
 
@@ -259,7 +263,7 @@ canvas.addEventListener("click", (event) => {
                 return
             }
 
-            isValidMove = isValid(selectedPiece, selectedRow, selectedCol, row, column, board, lastMove, hasMoved)
+            isValidMove = isValid(selectedPiece, selectedRow, selectedCol, row, column, board, lastMove, hasMoved, false)
 
 
             if (!isValidMove.valid) {
@@ -267,8 +271,10 @@ canvas.addEventListener("click", (event) => {
                 return;
             }
 
-            const target = board[row][column];
 
+
+            //this was for the capture counter
+            const target = board[row][column];
             if (target !== "") {
                 const color = target[0];
                 const capturedPiece = target[1];
@@ -329,6 +335,33 @@ canvas.addEventListener("click", (event) => {
             board[row][column] = selectedPiece;
             board[selectedRow][selectedCol] = "";
 
+            const capturedPiece = target;
+            if (isKingInCheck(board, currentTurn, lastMove, hasMoved)) {
+                board[selectedRow][selectedCol] = selectedPiece;
+                board[row][column] = capturedPiece;
+
+                if(currentTurn === "w") {
+                    captureCounts.blacks[capturedPiece] --;
+                } else {
+                    captureCounts.whites[capturedPiece]--;
+                }
+
+
+                if(isValidMove.enPassant) {
+                    board[lastMove.toRow][lastMove.toCol] = lastMove.piece
+
+                    if(lastMove.piece[0] === "w") {
+                        captureCounts.blacks.P --;
+                    } else {
+                        captureCounts.whites.P--;
+                    }
+                }
+
+
+                drawBoard();
+                return
+            }
+
 
             //UPDATING HASMOVED 
 
@@ -355,6 +388,9 @@ canvas.addEventListener("click", (event) => {
 
 
             updateCaptureCounts();
+
+            drawBoard();
+            await sleep(500);
 
             if (currentTurn === "w") {
                 currentTurn = "b";

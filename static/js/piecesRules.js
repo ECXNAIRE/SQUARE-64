@@ -1,5 +1,5 @@
 
-export function isValid(piece, fromRow, fromCol, toRow, toCol, board, lastMove, hasMoved) {
+export function isValid(piece, fromRow, fromCol, toRow, toCol, board, lastMove, hasMoved, checkingAttack) {
     const pieceName = piece[1];
 
     //PAWN RN
@@ -27,7 +27,7 @@ export function isValid(piece, fromRow, fromCol, toRow, toCol, board, lastMove, 
     }
 
     if (pieceName === "K") {
-        return kingMove(piece, fromRow, fromCol, toRow, toCol, board, hasMoved)
+        return kingMove(piece, fromRow, fromCol, toRow, toCol, board, hasMoved, checkingAttack)
     }
 
     return {
@@ -250,46 +250,48 @@ function queenMove(piece, fromRow, fromCol, toRow, toCol, board) {
 
 
 
-function kingMove(piece, fromRow, fromCol, toRow, toCol, board, hasMoved) {
+function kingMove(piece, fromRow, fromCol, toRow, toCol, board, hasMoved, checkAttack) {
     const rowDiff = Math.abs(toRow - fromRow);
     const colDiff = Math.abs(toCol - fromCol);
 
-    if
-        (piece === "wK" &&
-        hasMoved.wK === false) {
-        if (hasMoved.wRRight === false && fromCol === 4 && toCol === 6 && board[7][5] === "" && board[7][6] === "" && board[7][7] === "wR") {
-            return {
-                valid: true,
-                castle: true
-            }
-        };
+    if (!checkAttack) {
+        if
+            (piece === "wK" &&
+            hasMoved.wK === false) {
+            if (hasMoved.wRRight === false && fromCol === 4 && toCol === 6 && board[7][5] === "" && board[7][6] === "" && board[7][7] === "wR") {
+                return {
+                    valid: true,
+                    castle: true
+                }
+            };
 
-        if (hasMoved.wRLeft === false && fromCol === 4 && toCol === 2 && board[7][3] === "" && board[7][2] === "" && board[7][1] === "" && board[7][0] === "wR") {
-            return {
-                valid: true,
-                castle: true
-            }
-        };
+            if (hasMoved.wRLeft === false && fromCol === 4 && toCol === 2 && board[7][3] === "" && board[7][2] === "" && board[7][1] === "" && board[7][0] === "wR") {
+                return {
+                    valid: true,
+                    castle: true
+                }
+            };
 
-    }
+        }
 
-    if
-        (piece === "bK" &&
-        hasMoved.bK === false) {
-        if (hasMoved.bRRight === false && fromCol === 4 && toCol === 6 && board[0][5] === "" && board[0][6] === "" && board[0][7] === "bR") {
-            return {
-                valid: true,
-                castle: true
-            }
-        };
+        if
+            (piece === "bK" &&
+            hasMoved.bK === false) {
+            if (hasMoved.bRRight === false && fromCol === 4 && toCol === 6 && board[0][5] === "" && board[0][6] === "" && board[0][7] === "bR") {
+                return {
+                    valid: true,
+                    castle: true
+                }
+            };
 
-        if (hasMoved.bRLeft === false && fromCol === 4 && toCol === 2 && board[0][3] === "" && board[0][2] === "" && board[0][1] === "" && board[0][0] === "bR") {
-            return {
-                valid: true,
-                castle: true
-            }
-        };
+            if (hasMoved.bRLeft === false && fromCol === 4 && toCol === 2 && board[0][3] === "" && board[0][2] === "" && board[0][1] === "" && board[0][0] === "bR") {
+                return {
+                    valid: true,
+                    castle: true
+                }
+            };
 
+        }
     }
 
 
