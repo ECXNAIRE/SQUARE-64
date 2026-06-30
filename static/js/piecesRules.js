@@ -1,4 +1,4 @@
-import { isSquareAttacked } from "./gameRules";
+
 export function isValid(piece, fromRow, fromCol, toRow, toCol, board, lastMove, hasMoved, checkAttack) {
     const pieceName = piece[1];
 
@@ -263,10 +263,7 @@ function kingMove(piece, fromRow, fromCol, toRow, toCol, board, hasMoved, checkA
                 toCol === 6 &&
                 board[7][5] === ""
                 && board[7][6] === ""
-                && board[7][7] === "wR" &&
-                !isSquareAttacked(7, 4, "w", board, lastMove, hasMoved) &&
-                !isSquareAttacked(7, 5, "w", board, lastMove, hasMoved) &&
-                !isSquareAttacked(7, 6, "w", board, lastMove, hasMoved)
+                && board[7][7] === "wR"
             ) {
                 return {
                     valid: true,
@@ -280,10 +277,7 @@ function kingMove(piece, fromRow, fromCol, toRow, toCol, board, hasMoved, checkA
                 board[7][3] === "" &&
                 board[7][2] === "" &&
                 board[7][1] === "" &&
-                board[7][0] === "wR" &&
-                !isSquareAttacked(7, 4, "w", board, lastMove, hasMoved) &&
-                !isSquareAttacked(7, 3, "w", board, lastMove, hasMoved) &&
-                !isSquareAttacked(7, 2, "w", board, lastMove, hasMoved)
+                board[7][0] === "wR" 
             ) {
                 return {
                     valid: true,
@@ -301,10 +295,7 @@ function kingMove(piece, fromRow, fromCol, toRow, toCol, board, hasMoved, checkA
                 toCol === 6 &&
                 board[0][5] === "" &&
                 board[0][6] === "" &&
-                board[0][7] === "bR" &&
-                !isSquareAttacked(0, 4, "b", board, lastMove, hasMoved) &&
-                !isSquareAttacked(0, 5, "b", board, lastMove, hasMoved) &&
-                !isSquareAttacked(0, 6, "b", board, lastMove, hasMoved)
+                board[0][7] === "bR" 
             ) {
                 return {
                     valid: true,
@@ -318,10 +309,7 @@ function kingMove(piece, fromRow, fromCol, toRow, toCol, board, hasMoved, checkA
                 board[0][3] === "" &&
                 board[0][2] === "" &&
                 board[0][1] === "" &&
-                board[0][0] === "bR" &&
-                !isSquareAttacked(0, 4, "b", board, lastMove, hasMoved) &&
-                !isSquareAttacked(0, 3, "b", board, lastMove, hasMoved) &&
-                !isSquareAttacked(0, 2, "b", board, lastMove, hasMoved)
+                board[0][0] === "bR" 
             ) {
                 return {
                     valid: true,
