@@ -1,5 +1,5 @@
 
-export function isValid(piece, fromRow, fromCol, toRow, toCol, board, lastMove, hasMoved, checkingAttack) {
+export function isValid(piece, fromRow, fromCol, toRow, toCol, board, lastMove, hasMoved, checkAttack) {
     const pieceName = piece[1];
 
     //PAWN RN
@@ -27,7 +27,7 @@ export function isValid(piece, fromRow, fromCol, toRow, toCol, board, lastMove, 
     }
 
     if (pieceName === "K") {
-        return kingMove(piece, fromRow, fromCol, toRow, toCol, board, hasMoved, checkingAttack)
+        return kingMove(piece, fromRow, fromCol, toRow, toCol, board, hasMoved, checkAttack)
     }
 
     return {

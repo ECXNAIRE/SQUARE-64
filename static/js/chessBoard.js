@@ -336,24 +336,30 @@ canvas.addEventListener("click", async (event) => {
             board[selectedRow][selectedCol] = "";
 
             const capturedPiece = target;
+            let capturedPieceType = null;
+            if (capturedPiece !== "") {
+                capturedPieceType = capturedPiece[1];
+            }
             if (isKingInCheck(board, currentTurn, lastMove, hasMoved)) {
                 board[selectedRow][selectedCol] = selectedPiece;
                 board[row][column] = capturedPiece;
 
-                if(currentTurn === "w") {
-                    captureCounts.blacks[capturedPiece] --;
-                } else {
-                    captureCounts.whites[capturedPiece]--;
+                if (capturedPieceType !== null) {
+                    if (currentTurn === "w") {
+                        captureCounts.blacks[capturedPieceType]--;
+                    } else {
+                        captureCounts.whites[capturedPieceType]--;
+                    }
                 }
 
 
-                if(isValidMove.enPassant) {
+                if (isValidMove.enPassant) {
                     board[lastMove.toRow][lastMove.toCol] = lastMove.piece
 
-                    if(lastMove.piece[0] === "w") {
-                        captureCounts.blacks.P --;
-                    } else {
+                    if (lastMove.piece[0] === "w") {
                         captureCounts.whites.P--;
+                    } else {
+                        captureCounts.blacks.P--;
                     }
                 }
 

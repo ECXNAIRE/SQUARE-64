@@ -1,4 +1,4 @@
-import { isValid } from "./piecesRules";
+import { isValid } from "./piecesRules.js";
 
 
 function findKing(board, color) {
