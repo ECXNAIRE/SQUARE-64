@@ -1,6 +1,30 @@
 import { isValid } from './piecesRules.js'
-import { isKingInCheck, canCastle } from './gameRules.js';
+import { isKingInCheck, canCastle, pawnPromotion, needsPromotion } from './gameRules.js';
 
+
+
+
+let promotionRow;
+let PromotionCol;
+const promotionMenu = document.getElementById("promotionMenu");
+const promoteQ = document.getElementById("promoteQ");
+const promoteR = document.getElementById("promoteR");
+const promoteB = document.getElementById("promoteB");
+const promoteN = document.getElementById("promoteN");
+
+
+
+function showPromotionMenu(row, column, color)  {
+    promotionRow = row;
+    PromotionCol = column
+    
+    promoteQ.src = `../static/assets/${color}Q.svg`
+    promoteR.src = `../static/assets/${color}R.svg`
+    promoteB.src = `../static/assets/${color}B.svg`
+    promoteN.src = `../static/assets/${color}N.svg`
+
+    promotionMenu.style.display = flex;
+}
 
 const captureCounts = {
     whites: {
@@ -31,6 +55,7 @@ const hasMoved = {
 
 let isValidMove = true;
 let lastMove = null;
+
 
 const canvas = document.getElementById("chessBoardCanvas");
 const ctx = canvas.getContext("2d");
@@ -211,6 +236,8 @@ let selectedRow = -1;
 let selectedCol = -1;
 
 
+
+
 canvas.addEventListener("click", async (event) => {
 
     const rect = canvas.getBoundingClientRect();
@@ -363,6 +390,15 @@ canvas.addEventListener("click", async (event) => {
             }
 
 
+            //PAWN PROMOTION COMES HERE
+
+            if(needsPromotion(board, row, column)) {
+               
+                showPromotionMenu(row, column, currentTurn)
+
+            }
+
+
             //EN-PASSANT MOVE STORE
             lastMove = {
                 piece: selectedPiece,
@@ -406,3 +442,5 @@ function updateCaptureCounts() {
         document.getElementById("b" + piece).textContent = captureCounts.blacks[piece];
     }
 }
+
+

@@ -131,3 +131,27 @@ export function canCastle(piece, toCol, board, lastMove, hasMoved) {
 
     return false;
 }
+
+
+
+
+export function needsPromotion(board, row, col) {
+    const piece = board[row][col]
+
+    if(piece === "wP" && row === 0) {
+        return true
+    }
+
+
+    if(piece === "bP" && row === 7) {
+        return true
+    }
+}
+
+
+export function pawnPromotion(board, row, column, pieceType) {
+    const color = board[row][column][0];
+
+    board[row][column] = color + pieceType;
+}
+
