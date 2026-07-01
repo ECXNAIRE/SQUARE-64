@@ -58,6 +58,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
         }
 
         #chessBoardCanvas {
@@ -176,6 +177,31 @@
             border-radius: 12px;
             background-color: white;
         }
+
+        .promotionMenu {
+            position: absolute;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 80px;
+            background: #d6fabf;
+            border: 3px solid #ffffff;
+            border-radius: 10px;
+            z-index: 1000;
+        }
+
+        .promotionMenu img {
+            width: 70px;
+            height: 70px;
+            cursor: pointer;
+            padding: 4px;
+            transition: 0.15s;
+        }
+
+        .promotionMenu img:hover {
+            transform: scale(1.08);
+        }
     </style>
 </head>
 
@@ -253,6 +279,12 @@
 
         <div class="canvasArea">
             <canvas id="chessBoardCanvas"></canvas>
+            <div id="promotionMenu" class="promotionMenu">
+                <img id="promoteQ">
+                <img id="promoteR">
+                <img id="promoteB">
+                <img id="promoteN">
+            </div>
         </div>
 
         <div class="rightSideBar">
@@ -264,12 +296,7 @@
     </div>
 
 
-    <div id="promotionMenu" class="promotionMenu">
-        <img id="promoteQ">
-        <img id="promoteR">
-        <img id="promoteB">
-        <img id="promoteN">
-    </div>
+
 
 
     <script type="module" src="../static/js/chessBoard.js"></script>

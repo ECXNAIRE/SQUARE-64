@@ -1,11 +1,12 @@
 import { isValid } from './piecesRules.js'
 import { isKingInCheck, canCastle, pawnPromotion, needsPromotion } from './gameRules.js';
 
-
+const canvas = document.getElementById("chessBoardCanvas");
+const ctx = canvas.getContext("2d");
 
 
 let promotionRow;
-let PromotionCol;
+let promotionCol;
 const promotionMenu = document.getElementById("promotionMenu");
 const promoteQ = document.getElementById("promoteQ");
 const promoteR = document.getElementById("promoteR");
@@ -14,17 +15,78 @@ const promoteN = document.getElementById("promoteN");
 
 
 
-function showPromotionMenu(row, column, color)  {
-    promotionRow = row;
-    PromotionCol = column
-    
-    promoteQ.src = `../static/assets/${color}Q.svg`
-    promoteR.src = `../static/assets/${color}R.svg`
-    promoteB.src = `../static/assets/${color}B.svg`
-    promoteN.src = `../static/assets/${color}N.svg`
 
-    promotionMenu.style.display = flex;
+function showPromotionMenu(row, column, color) {
+
+    promotionRow = row;
+    promotionCol = column;
+
+    if (boardOrientation === "black") {
+        promotionRow = 7 - row;
+        promotionCol = 7 - column;
+    }
+
+    promoteQ.src = `../static/assets/${color}Q.svg`;
+    promoteR.src = `../static/assets/${color}R.svg`;
+    promoteB.src = `../static/assets/${color}B.svg`;
+    promoteN.src = `../static/assets/${color}N.svg`;
+
+
+    const rect = canvas.getBoundingClientRect();
+    const parentRect = canvas.parentElement.getBoundingClientRect();
+
+    promotionMenu.style.left = `${rect.left - parentRect.left + offset + promotionCol * squareSize}px`;
+    promotionMenu.style.top = `${rect.top - parentRect.top + promotionRow * squareSize}px`;
+
+    promotionMenu.style.display = "flex";
 }
+
+
+async function choosePromotion(piece) {
+
+    pawnPromotion(board, promotionRow, promotionCol, piece);
+
+    promotionMenu.style.display = "none";
+
+    lastMove = {
+        piece: selectedPiece,
+        fromRow: selectedRow,
+        fromCol: selectedCol,
+        toRow: promotionRow,
+        toCol: promotionCol
+    };
+
+    updateCaptureCounts();
+
+    drawBoard();
+
+
+
+    await sleep(500);
+
+
+
+    if (currentTurn === "w") {
+        currentTurn = "b";
+        boardOrientation = "black";
+    } else {
+        currentTurn = "w";
+        boardOrientation = "white";
+    }
+
+    selectedPiece = null;
+    selectedRow = -1;
+    selectedCol = -1;
+
+    drawBoard();
+}
+
+
+promoteQ.onclick = () => choosePromotion("Q");
+promoteR.onclick = () => choosePromotion("R");
+promoteB.onclick = () => choosePromotion("B");
+promoteN.onclick = () => choosePromotion("N");
+
 
 const captureCounts = {
     whites: {
@@ -57,8 +119,7 @@ let isValidMove = true;
 let lastMove = null;
 
 
-const canvas = document.getElementById("chessBoardCanvas");
-const ctx = canvas.getContext("2d");
+
 
 const boardSize = 640;
 const squareSize = boardSize / 8;
@@ -392,9 +453,11 @@ canvas.addEventListener("click", async (event) => {
 
             //PAWN PROMOTION COMES HERE
 
-            if(needsPromotion(board, row, column)) {
-               
+            if (needsPromotion(board, row, column)) {
                 showPromotionMenu(row, column, currentTurn)
+
+                drawBoard();
+                return;
 
             }
 
