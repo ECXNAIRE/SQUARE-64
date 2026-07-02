@@ -173,17 +173,41 @@ export function checkLegalMoves(row, column, board, selectedPiece, hasMoved, las
 }
 
 
-export function checkMate(board, color , hasMoved, lastMove) {
-    if (isKingInCheck(board, color, lastMove, hasMoved, true)) {
-        for(let row = 0; row < 8; row ++) {
-            for(let col = 0; col <  8 ; col ++) {
-                if(board[row][col][0] === color) {
-                    for (let rowCheck = 0; rowCheck < 8; rowCheck ++) {
-                        for (let colCheck = 0; colCheck < 8; colCheck ++) {
-                            const piece = board[row][col]
-                            const legalMove = isValid(piece, row, col, rowCheck, colCheck, board, lastMove, hasMoved, true)
 
-                            if (legalMove.valid)  {
+function moveLeavesKingSafe(board, fromRow, fromCol, toRow, toCol, lastMove, hasMoved) {
+    const captured = board[toRow][toCol]
+
+    const piece = board[fromRow][fromCol]
+
+    board[fromRow][fromCol] = ""
+    board[toRow][toCol] = piece
+
+    const color = piece[0]
+    const safe = !isKingInCheck(board, color, lastMove, hasMoved, true)
+
+
+    board[fromRow][fromCol] = piece;
+    board[toRow][toCol] = captured;
+
+    return safe
+}
+
+
+export function legalMoveCheckmate(board, color, hasMoved, lastMove) {
+    if (isKingInCheck(board, color, lastMove, hasMoved, true)) {
+        for (let row = 0; row < 8; row++) {
+            for (let col = 0; col < 8; col++) {
+                if (board[row][col] !== "" && board[row][col][0] === color) {
+                    for (let rowCheck = 0; rowCheck < 8; rowCheck++) {
+                        for (let colCheck = 0; colCheck < 8; colCheck++) {
+                            const piece = board[row][col]
+                            const legalMove = isValid(piece, row, col, rowCheck, colCheck, board, lastMove, hasMoved, false)
+
+                            if(!legalMove.valid) continue
+
+                            const isKingSafe = moveLeavesKingSafe(board, row, col, rowCheck, colCheck, lastMove, hasMoved)
+
+                            if (legalMove.valid && isKingSafe) {
                                 return false
                             }
                         }
@@ -196,3 +220,4 @@ export function checkMate(board, color , hasMoved, lastMove) {
 
     return true
 }
+

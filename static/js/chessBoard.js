@@ -1,5 +1,5 @@
 import { isValid } from './piecesRules.js'
-import { isKingInCheck, canCastle, pawnPromotion, needsPromotion } from './gameRules.js';
+import { isKingInCheck, canCastle, pawnPromotion, needsPromotion, checkLegalMoves, legalMoveCheckmate } from './gameRules.js';
 
 const canvas = document.getElementById("chessBoardCanvas");
 const ctx = canvas.getContext("2d");
@@ -203,7 +203,7 @@ function drawSquares() {
                     offset + displayColumn * squareSize + 1.5,
                     offset + displayRow * squareSize + 1.5,
                     squareSize - 3,
-                    squareSize- 3
+                    squareSize - 3
                 );
             }
         }
@@ -443,15 +443,23 @@ canvas.addEventListener("click", async (event) => {
                         captureCounts.blacks.P--;
                     }
                 }
-
-
                 drawBoard();
                 return
             }
 
 
-            //UPDATING HASMOVED 
+            let enemyColor;
+            if(currentTurn === "w") {
+                enemyColor = "b"
+            } else {
+                enemyColor = "w"
+            }
 
+
+            
+
+
+            //UPDATING HASMOVED 
             if (selectedPiece === "wK") hasMoved.wK = true;
             if (selectedPiece === "bK") hasMoved.bK = true;
             if (selectedPiece === "wR") {
@@ -475,6 +483,8 @@ canvas.addEventListener("click", async (event) => {
             }
 
 
+
+
             //EN-PASSANT MOVE STORE
             lastMove = {
                 piece: selectedPiece,
@@ -484,6 +494,12 @@ canvas.addEventListener("click", async (event) => {
                 toCol: column
             };
 
+
+            if (!legalMoveCheckmate(board, enemyColor, hasMoved, lastMove, true) &&
+                isKingInCheck(board, enemyColor, lastMove, hasMoved, true)
+            ) {
+                console.log("checkmate")
+            }
 
             updateCaptureCounts();
 
