@@ -138,12 +138,12 @@ export function canCastle(piece, toCol, board, lastMove, hasMoved) {
 export function needsPromotion(board, row, col) {
     const piece = board[row][col]
 
-    if(piece === "wP" && row === 0) {
+    if (piece === "wP" && row === 0) {
         return true
     }
 
 
-    if(piece === "bP" && row === 7) {
+    if (piece === "bP" && row === 7) {
         return true
     }
 }
@@ -155,3 +155,44 @@ export function pawnPromotion(board, row, column, pieceType) {
     board[row][column] = color + pieceType;
 }
 
+
+
+
+export function checkLegalMoves(row, column, board, selectedPiece, hasMoved, lastMove) {
+    for (let rowCheck = 0; rowCheck < 8; rowCheck++) {
+        for (let columnCheck = 0; columnCheck < 8; columnCheck++) {
+            const moveValid = isValid(selectedPiece, row, column, rowCheck, columnCheck, board, lastMove, hasMoved, true)
+
+            if (moveValid.valid) {
+                return true
+            }
+        }
+    }
+
+    return false
+}
+
+
+export function checkMate(board, color , hasMoved, lastMove) {
+    if (isKingInCheck(board, color, lastMove, hasMoved, true)) {
+        for(let row = 0; row < 8; row ++) {
+            for(let col = 0; col <  8 ; col ++) {
+                if(board[row][col][0] === color) {
+                    for (let rowCheck = 0; rowCheck < 8; rowCheck ++) {
+                        for (let colCheck = 0; colCheck < 8; colCheck ++) {
+                            const piece = board[row][col]
+                            const legalMove = isValid(piece, row, col, rowCheck, colCheck, board, lastMove, hasMoved, true)
+
+                            if (legalMove.valid)  {
+                                return false
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    return true
+}
