@@ -21,9 +21,13 @@ function showPromotionMenu(row, column, color) {
     promotionRow = row;
     promotionCol = column;
 
+
+    let displayRow = row;
+    let displayCol = column;
+
     if (boardOrientation === "black") {
-        promotionRow = 7 - row;
-        promotionCol = 7 - column;
+        displayRow = 7 - row;
+        displayCol = 7 - column;
     }
 
     promoteQ.src = `../static/assets/${color}Q.svg`;
@@ -35,8 +39,8 @@ function showPromotionMenu(row, column, color) {
     const rect = canvas.getBoundingClientRect();
     const parentRect = canvas.parentElement.getBoundingClientRect();
 
-    promotionMenu.style.left = `${rect.left - parentRect.left + offset + promotionCol * squareSize}px`;
-    promotionMenu.style.top = `${rect.top - parentRect.top + promotionRow * squareSize}px`;
+    promotionMenu.style.left = `${rect.left - parentRect.left + offset + displayCol * squareSize}px`;
+    promotionMenu.style.top = `${rect.top - parentRect.top + displayRow * squareSize}px`;
 
     promotionMenu.style.display = "flex";
 }
@@ -166,7 +170,7 @@ function drawSquares() {
         for (let column = 0; column < 8; column++) {
 
             const isLight = (row + column) % 2 == 0;
-            ctx.fillStyle = isLight ? "#d6fabf" : "#55a700";
+            ctx.fillStyle = isLight ? "#EBECD0" : "#739552";
 
             let displayRow = row;
             let displayColumn = column;
@@ -184,13 +188,22 @@ function drawSquares() {
             );
 
             if (row === selectedRow && column === selectedCol) {
-                ctx.fillStyle = "#b3fa67";
+                ctx.fillStyle = "#B8D97A";
+                ctx.strokeStyle = "white"
+                ctx.lineWidth = 3
 
                 ctx.fillRect(
                     offset + displayColumn * squareSize,
                     offset + displayRow * squareSize,
                     squareSize,
                     squareSize
+                );
+
+                ctx.strokeRect(
+                    offset + displayColumn * squareSize + 1.5,
+                    offset + displayRow * squareSize + 1.5,
+                    squareSize - 3,
+                    squareSize- 3
                 );
             }
         }
