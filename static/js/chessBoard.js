@@ -5,6 +5,7 @@ const canvas = document.getElementById("chessBoardCanvas");
 const ctx = canvas.getContext("2d");
 let gameOver = false
 
+
 let promotionRow;
 let promotionCol;
 const promotionMenu = document.getElementById("promotionMenu");
@@ -12,6 +13,10 @@ const promoteQ = document.getElementById("promoteQ");
 const promoteR = document.getElementById("promoteR");
 const promoteB = document.getElementById("promoteB");
 const promoteN = document.getElementById("promoteN");
+let selectedPiece = null;
+let selectedRow = -1;
+let selectedCol = -1;
+let legalMoves = []
 
 
 function showGameResult(title, color) {
@@ -19,10 +24,10 @@ function showGameResult(title, color) {
 
     gameOver = true
 
-    const gameResultImg= document.getElementById("gameResultImg");
+    const gameResultImg = document.getElementById("gameResultImg");
     const gameResult = document.getElementById("gameResult")
 
-    if(color === "w") {
+    if (color === "w") {
         gameResultImg.src = "../static/img/whiteMate.png";
     } else {
         gameResultImg.src = "../static/img/blackMate.png";
@@ -31,10 +36,10 @@ function showGameResult(title, color) {
     gameResult.classList.remove("hidden");
 
 
-    setTimeout(()=> {
+    setTimeout(() => {
         document.addEventListener("click", () => {
             location.reload();
-        }, {once: true});
+        }, { once: true });
     }, 200)
 }
 
@@ -128,6 +133,7 @@ async function choosePromotion(piece) {
     selectedPiece = null;
     selectedRow = -1;
     selectedCol = -1;
+    legalMoves = []
 
     drawBoard();
 }
@@ -207,6 +213,7 @@ function drawBoard() {
 
 
     drawSquares();
+    drawLegalMoves();
     drawPieces();
     drawCoordinates();
     updateCaptureCounts();
@@ -352,16 +359,11 @@ function drawPieces() {
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
-let selectedPiece = null;
-let selectedRow = -1;
-let selectedCol = -1;
-
-
 
 
 canvas.addEventListener("click", async (event) => {
 
-    if(gameOver) return;
+    if (gameOver) return;
 
     const rect = canvas.getBoundingClientRect();
 
@@ -394,6 +396,9 @@ canvas.addEventListener("click", async (event) => {
         selectedRow = row;
         selectedCol = column;
 
+
+        legalMoves = checkLegalMoves(row, column, board, selectedPiece, hasMoved, lastMove)
+
     }
 
     else {
@@ -408,6 +413,8 @@ canvas.addEventListener("click", async (event) => {
                 selectedPiece = clickedPiece;
                 selectedRow = row;
                 selectedCol = column;
+
+                legalMoves = checkLegalMoves(row, column, board, selectedPiece, hasMoved, lastMove)
 
                 drawBoard();
                 return
@@ -579,6 +586,7 @@ canvas.addEventListener("click", async (event) => {
         selectedPiece = null;
         selectedRow = -1;
         selectedCol = -1;
+        legalMoves = []
     }
 
     drawBoard();
@@ -594,4 +602,50 @@ function updateCaptureCounts() {
     }
 }
 
+
+function drawLegalMoves() {
+    for (const move of legalMoves) {
+        let displayRow = move.row;
+        let displayCol = move.col;
+
+        if (boardOrientation === "black") {
+            displayRow = 7 - move.row;
+            displayCol = 7 - move.col
+        }
+
+        const x = offset + displayCol * squareSize
+        const y = offset + displayRow * squareSize
+
+        if (board[move.row][move.col] !== "") {
+            ctx.fillStyle = "#B8D97A";
+            ctx.strokeStyle = "white"
+            ctx.lineWidth = 3
+
+            ctx.fillRect(
+                offset + displayCol * squareSize,
+                offset + displayRow * squareSize,
+                squareSize,
+                squareSize
+            );
+
+            ctx.strokeRect(
+                offset + displayCol * squareSize + 1.5,
+                offset + displayRow * squareSize + 1.5,
+                squareSize - 3,
+                squareSize - 3
+            );
+        } else {
+            ctx.fillStyle = "rgba(0,0,0,0.28)";
+            ctx.beginPath();
+            ctx.arc(
+                x + squareSize / 2,
+                y + squareSize / 2,
+                9,
+                0,
+                Math.PI * 2
+            );
+            ctx.fill();
+        }
+    }
+}
 

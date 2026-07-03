@@ -159,17 +159,23 @@ export function pawnPromotion(board, row, column, pieceType) {
 
 
 export function checkLegalMoves(row, column, board, selectedPiece, hasMoved, lastMove) {
+
+    const legalMoves = []
     for (let rowCheck = 0; rowCheck < 8; rowCheck++) {
         for (let columnCheck = 0; columnCheck < 8; columnCheck++) {
             const moveValid = isValid(selectedPiece, row, column, rowCheck, columnCheck, board, lastMove, hasMoved, true)
 
             if (moveValid.valid) {
-                return true
+                legalMoves.push({
+                    row: rowCheck,
+                    col: columnCheck,
+                    piece: board[rowCheck][columnCheck]
+                })
             }
         }
     }
 
-    return false
+    return legalMoves
 }
 
 
