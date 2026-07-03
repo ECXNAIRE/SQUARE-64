@@ -192,20 +192,17 @@
 
         .game-result {
             position: absolute;
-
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 320px;
-            padding: 30px;
-            background: #F8F8F4;
+            width: 340px;
+            height: 340px;
             border: 3px solid #739552;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+            border-radius: 18px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, .30);
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            gap: 18px;
             z-index: 100;
         }
 
@@ -213,30 +210,12 @@
             display: none;
         }
 
-        .game-result h1 {
-            margin: 0;
-            font-size: 32px;
-            color: #222;
-        }
 
-        .game-result p {
-            margin: 0;
-            font-size: 18px;
-            color: #666;
-        }
-
-        .game-result button {
-            padding: 12px 30px;
-            border: none;
-            border-radius: 10px;
-            background: #739552;
-            color: white;
-            font-size: 18px;
-            cursor: pointer;
-        }
-
-        .game-result button:hover {
-            background: #5e7c45;
+        #gameResultImg {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius:18px;
         }
     </style>
 </head>
@@ -324,9 +303,7 @@
 
 
             <div id="gameResult" class="game-result hidden">
-                <h1 id="resultTitle"></h1>
-                <p id="resultText"></p>
-                <button id="playAgain">Play Again</button>
+                <img id="gameResultImg">
             </div>
         </div>
 
@@ -366,13 +343,11 @@
             if (darkmode == true) {
                 localStorage.setItem("theme", "dark")
                 document.body.style.backgroundColor = "#474f3d";
-                document.body.style.cursor = "url('../static/cursor/cursorW.png') 8 8, auto";
 
                 themeIcon.src = "../static/img/lightMode.png";
             } else {
                 localStorage.setItem("theme", "light")
                 document.body.style.backgroundColor = "#F8F8F4";
-                document.body.style.cursor = "url('../static/cursor/cursorB.png') 8 8, auto";
 
                 themeIcon.src = "../static/img/darkMode.png";
             }

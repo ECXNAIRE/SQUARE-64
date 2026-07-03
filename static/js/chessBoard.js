@@ -3,7 +3,6 @@ import { isKingInCheck, canCastle, pawnPromotion, needsPromotion, checkLegalMove
 
 const canvas = document.getElementById("chessBoardCanvas");
 const ctx = canvas.getContext("2d");
-const playGame = document.getElementById("playAgain");
 let gameOver = false
 
 let promotionRow;
@@ -15,17 +14,28 @@ const promoteB = document.getElementById("promoteB");
 const promoteN = document.getElementById("promoteN");
 
 
-function showGameResult(title, text) {
+function showGameResult(title, color) {
+
 
     gameOver = true
-    document.getElementById("resultTitle").textContent = title;
-    document.getElementById("resultText").textContent = text;
 
-    document.getElementById("gameResult").classList.remove("hidden");
+    const gameResultImg= document.getElementById("gameResultImg");
+    const gameResult = document.getElementById("gameResult")
 
-    playGame.addEventListener("click", () => {
-        location.reload();
-    })
+    if(color === "w") {
+        gameResultImg.src = "../static/img/whiteMate.png";
+    } else {
+        gameResultImg.src = "../static/img/blackMate.png";
+    }
+
+    gameResult.classList.remove("hidden");
+
+
+    setTimeout(()=> {
+        document.addEventListener("click", () => {
+            location.reload();
+        }, {once: true});
+    }, 200)
 }
 
 
@@ -86,9 +96,9 @@ async function choosePromotion(piece) {
         isKingInCheck(board, enemyColor, lastMove, hasMoved)
     ) {
         if (currentTurn === "w") {
-            showGameResult("Checkmate", "White wins!");
+            showGameResult("Checkmate", "WHITE won with a CHECKMATE", currentTurn);
         } else {
-            showGameResult("Checkmate", "black wins!");
+            showGameResult("Checkmate", "BLACK won with a CHECKMATE", currentTurn);
         }
     }
     else if (legalMoveStalemate(board, enemyColor, hasMoved, lastMove, true) &&
@@ -539,9 +549,9 @@ canvas.addEventListener("click", async (event) => {
                 isKingInCheck(board, enemyColor, lastMove, hasMoved)
             ) {
                 if (currentTurn === "w") {
-                    showGameResult("Checkmate", "White wins!");
+                    showGameResult(currentTurn);
                 } else {
-                    showGameResult("Checkmate", "black wins!");
+                    showGameResult(currentTurn);
                 }
             }
             else if (legalMoveStalemate(board, enemyColor, hasMoved, lastMove, true) &&
