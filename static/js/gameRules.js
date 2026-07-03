@@ -203,7 +203,7 @@ export function legalMoveCheckmate(board, color, hasMoved, lastMove) {
                             const piece = board[row][col]
                             const legalMove = isValid(piece, row, col, rowCheck, colCheck, board, lastMove, hasMoved, false)
 
-                            if(!legalMove.valid) continue
+                            if (!legalMove.valid) continue
 
                             const isKingSafe = moveLeavesKingSafe(board, row, col, rowCheck, colCheck, lastMove, hasMoved)
 
@@ -221,3 +221,31 @@ export function legalMoveCheckmate(board, color, hasMoved, lastMove) {
     return true
 }
 
+
+export function legalMoveStalemate(board, color, hasMoved, lastMove) {
+    for (let row = 0; row < 8; row++) {
+        for (let col = 0; col < 8; col++) {
+            if (board[row][col] !== "" && board[row][col][0] === color) {
+                for (let checkRow = 0; checkRow < 8; checkRow++) {
+                    for (let checkCol = 0; checkCol < 8; checkCol++) {
+                        const piece = board[row][col]
+
+                        const legalMove = isValid(piece, row, col, checkRow, checkCol, board, lastMove, hasMoved, false)
+
+                        if (!legalMove.valid) {
+                            continue
+                        }
+
+                        const isKingSafe = moveLeavesKingSafe(board, row, col, checkRow, checkCol, lastMove, hasMoved)
+
+                        if (isKingSafe) {
+                            return false
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return true
+}

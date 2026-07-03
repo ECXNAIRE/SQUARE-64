@@ -1,5 +1,5 @@
 import { isValid } from './piecesRules.js'
-import { isKingInCheck, canCastle, pawnPromotion, needsPromotion, checkLegalMoves, legalMoveCheckmate } from './gameRules.js';
+import { isKingInCheck, canCastle, pawnPromotion, needsPromotion, checkLegalMoves, legalMoveCheckmate, legalMoveStalemate } from './gameRules.js';
 
 const canvas = document.getElementById("chessBoardCanvas");
 const ctx = canvas.getContext("2d");
@@ -59,6 +59,25 @@ async function choosePromotion(piece) {
         toRow: promotionRow,
         toCol: promotionCol
     };
+
+    let enemyColor;
+    if (currentTurn === "w") {
+        enemyColor = "b"
+    } else {
+        enemyColor = "w"
+    }
+
+    if (
+        legalMoveCheckmate(board, enemyColor, hasMoved, lastMove) &&
+        isKingInCheck(board, enemyColor, lastMove, hasMoved)
+    ) {
+        console.log("checkmate");
+    }
+    else if (legalMoveStalemate(board, enemyColor, hasMoved, lastMove, true) &&
+        !isKingInCheck(board, enemyColor, lastMove, hasMoved)
+    ) {
+        console.log("stalemate")
+    }
 
     updateCaptureCounts();
 
@@ -449,14 +468,14 @@ canvas.addEventListener("click", async (event) => {
 
 
             let enemyColor;
-            if(currentTurn === "w") {
+            if (currentTurn === "w") {
                 enemyColor = "b"
             } else {
                 enemyColor = "w"
             }
 
 
-            
+
 
 
             //UPDATING HASMOVED 
@@ -495,10 +514,16 @@ canvas.addEventListener("click", async (event) => {
             };
 
 
-            if (!legalMoveCheckmate(board, enemyColor, hasMoved, lastMove, true) &&
-                isKingInCheck(board, enemyColor, lastMove, hasMoved, true)
+            if (
+                legalMoveCheckmate(board, enemyColor, hasMoved, lastMove) &&
+                isKingInCheck(board, enemyColor, lastMove, hasMoved)
             ) {
-                console.log("checkmate")
+                console.log("checkmate");
+            }
+            else if (legalMoveStalemate(board, enemyColor, hasMoved, lastMove, true) &&
+                !isKingInCheck(board, enemyColor, lastMove, hasMoved)
+            ) {
+                console.log("stalemate")
             }
 
             updateCaptureCounts();
