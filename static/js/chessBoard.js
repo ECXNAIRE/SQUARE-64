@@ -3,7 +3,8 @@ import { isKingInCheck, canCastle, pawnPromotion, needsPromotion, checkLegalMove
 
 const canvas = document.getElementById("chessBoardCanvas");
 const ctx = canvas.getContext("2d");
-
+const playGame = document.getElementById("playAgain");
+let gameOver = false
 
 let promotionRow;
 let promotionCol;
@@ -14,6 +15,18 @@ const promoteB = document.getElementById("promoteB");
 const promoteN = document.getElementById("promoteN");
 
 
+function showGameResult(title, text) {
+
+    gameOver = true
+    document.getElementById("resultTitle").textContent = title;
+    document.getElementById("resultText").textContent = text;
+
+    document.getElementById("gameResult").classList.remove("hidden");
+
+    playGame.addEventListener("click", () => {
+        location.reload();
+    })
+}
 
 
 function showPromotionMenu(row, column, color) {
@@ -67,16 +80,21 @@ async function choosePromotion(piece) {
         enemyColor = "w"
     }
 
+
     if (
         legalMoveCheckmate(board, enemyColor, hasMoved, lastMove) &&
         isKingInCheck(board, enemyColor, lastMove, hasMoved)
     ) {
-        console.log("checkmate");
+        if (currentTurn === "w") {
+            showGameResult("Checkmate", "White wins!");
+        } else {
+            showGameResult("Checkmate", "black wins!");
+        }
     }
     else if (legalMoveStalemate(board, enemyColor, hasMoved, lastMove, true) &&
         !isKingInCheck(board, enemyColor, lastMove, hasMoved)
     ) {
-        console.log("stalemate")
+        showGameResult("Stalemate", "The game is a draw.");
     }
 
     updateCaptureCounts();
@@ -333,6 +351,8 @@ let selectedCol = -1;
 
 canvas.addEventListener("click", async (event) => {
 
+    if(gameOver) return;
+
     const rect = canvas.getBoundingClientRect();
 
     const x = event.clientX - rect.left;
@@ -518,12 +538,16 @@ canvas.addEventListener("click", async (event) => {
                 legalMoveCheckmate(board, enemyColor, hasMoved, lastMove) &&
                 isKingInCheck(board, enemyColor, lastMove, hasMoved)
             ) {
-                console.log("checkmate");
+                if (currentTurn === "w") {
+                    showGameResult("Checkmate", "White wins!");
+                } else {
+                    showGameResult("Checkmate", "black wins!");
+                }
             }
             else if (legalMoveStalemate(board, enemyColor, hasMoved, lastMove, true) &&
                 !isKingInCheck(board, enemyColor, lastMove, hasMoved)
             ) {
-                console.log("stalemate")
+                showGameResult("Stalemate", "The game is a draw.");
             }
 
             updateCaptureCounts();
