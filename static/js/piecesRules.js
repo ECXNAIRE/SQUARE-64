@@ -1,4 +1,5 @@
 
+
 export function isValid(piece, fromRow, fromCol, toRow, toCol, board, lastMove, hasMoved, checkAttack) {
     const pieceName = piece[1];
 
@@ -319,7 +320,6 @@ function kingMove(piece, fromRow, fromCol, toRow, toCol, board, hasMoved, checkA
 
         }
     }
-
 
     if (rowDiff > 1 || colDiff > 1) {
         return {

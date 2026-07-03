@@ -73,10 +73,6 @@ export function canCastle(piece, toCol, board, lastMove, hasMoved) {
         ) {
             return false;
         }
-
-        board[7][5] = board[7][7];
-        board[7][7] = "";
-
         return true;
     }
 
@@ -89,10 +85,6 @@ export function canCastle(piece, toCol, board, lastMove, hasMoved) {
         ) {
             return false;
         }
-
-        board[7][3] = board[7][0];
-        board[7][0] = "";
-
         return true;
     }
 
@@ -105,10 +97,6 @@ export function canCastle(piece, toCol, board, lastMove, hasMoved) {
         ) {
             return false;
         }
-
-        board[0][5] = board[0][7];
-        board[0][7] = "";
-
         return true;
     }
 
@@ -122,10 +110,6 @@ export function canCastle(piece, toCol, board, lastMove, hasMoved) {
         ) {
             return false;
         }
-
-        board[0][3] = board[0][0];
-        board[0][0] = "";
-
         return true;
     }
 
@@ -159,19 +143,66 @@ export function pawnPromotion(board, row, column, pieceType) {
 
 
 export function checkLegalMoves(row, column, board, selectedPiece, hasMoved, lastMove) {
-
     const legalMoves = []
     for (let rowCheck = 0; rowCheck < 8; rowCheck++) {
         for (let columnCheck = 0; columnCheck < 8; columnCheck++) {
             const moveValid = isValid(selectedPiece, row, column, rowCheck, columnCheck, board, lastMove, hasMoved, true)
 
             if (moveValid.valid) {
-                legalMoves.push({
-                    row: rowCheck,
-                    col: columnCheck,
-                    piece: board[rowCheck][columnCheck]
-                })
+                const notKingInCheck = moveLeavesKingSafe(board, row, column, rowCheck, columnCheck, lastMove, hasMoved)
+
+                if (notKingInCheck) {
+                    legalMoves.push({
+                        row: rowCheck,
+                        col: columnCheck,
+                        piece: board[rowCheck][columnCheck],
+                    })
+                }
             }
+        }
+    }
+
+    console.log(canCastle(selectedPiece, 6, board, lastMove, hasMoved));
+
+    if (selectedPiece === "wK") {
+
+        if (canCastle(selectedPiece, 6, board, lastMove, hasMoved)) {
+            legalMoves.push({
+                row: 7,
+                col: 6,
+                piece: "",
+                castle: true
+            });
+        }
+
+        if (canCastle(selectedPiece, 2, board, lastMove, hasMoved)) {
+            legalMoves.push({
+                row: 7,
+                col: 2,
+                piece: "",
+                castle: true
+            });
+        }
+    }
+
+    if (selectedPiece === "bK") {
+
+        if (canCastle(selectedPiece, 6, board, lastMove, hasMoved)) {
+            legalMoves.push({
+                row: 0,
+                col: 6,
+                piece: "",
+                castle: true
+            });
+        }
+
+        if (canCastle(selectedPiece, 2, board, lastMove, hasMoved)) {
+            legalMoves.push({
+                row: 0,
+                col: 2,
+                piece: "",
+                castle: true
+            });
         }
     }
 
@@ -254,4 +285,27 @@ export function legalMoveStalemate(board, color, hasMoved, lastMove) {
     }
 
     return true
+}
+
+
+export function doCastle(piece, toCol, board) {
+    if (piece === "wK" && toCol === 6) {
+        board[7][5] = board[7][7]
+        board[7][7] = ""
+    }
+
+    if (piece === "wK" && toCol === 2) {
+        board[7][3] = board[7][0]
+        board[7][0] = ""
+    }
+
+    if (piece === "bK" && toCol === 6) {
+        board[0][5] = board[0][7]
+        board[0][7] = ""
+    }
+
+    if (piece === "bK" && toCol === 2) {
+        board[0][3] = board[0][0]
+        board[0][0] = ""
+    }
 }

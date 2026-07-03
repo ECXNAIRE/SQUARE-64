@@ -1,5 +1,5 @@
 import { isValid } from './piecesRules.js'
-import { isKingInCheck, canCastle, pawnPromotion, needsPromotion, checkLegalMoves, legalMoveCheckmate, legalMoveStalemate } from './gameRules.js';
+import { isKingInCheck, canCastle, pawnPromotion, needsPromotion, checkLegalMoves, legalMoveCheckmate, legalMoveStalemate, doCastle } from './gameRules.js';
 
 const canvas = document.getElementById("chessBoardCanvas");
 const ctx = canvas.getContext("2d");
@@ -399,6 +399,8 @@ canvas.addEventListener("click", async (event) => {
 
         legalMoves = checkLegalMoves(row, column, board, selectedPiece, hasMoved, lastMove)
 
+        console.log(legalMoves)
+
     }
 
     else {
@@ -468,9 +470,15 @@ canvas.addEventListener("click", async (event) => {
                 }
             }
 
+            console.log(canCastle(selectedPiece, column, board, lastMove, hasMoved))
+
 
             board[row][column] = selectedPiece;
             board[selectedRow][selectedCol] = "";
+
+            if (isValidMove.castle) {
+                doCastle(selectedPiece, column, board)
+            }
 
             const capturedPiece = target;
             let capturedPieceType = null;
@@ -616,8 +624,26 @@ function drawLegalMoves() {
         const x = offset + displayCol * squareSize
         const y = offset + displayRow * squareSize
 
-        if (board[move.row][move.col] !== "") {
-            ctx.fillStyle = "#B8D97A";
+        if (move.castle) {
+            ctx.fillStyle = "#FFD700";
+            ctx.strokeStyle = "black";
+            ctx.lineWidth = 2;
+
+            ctx.beginPath();
+            ctx.arc(
+                x + squareSize / 2,
+                y + squareSize / 2,
+                10,
+                0,
+                Math.PI * 2
+            );
+
+            ctx.fill();
+            ctx.stroke();
+
+        }
+        else if (move.piece !== "") {
+            ctx.fillStyle = "#d97a7a";
             ctx.strokeStyle = "white"
             ctx.lineWidth = 3
 
