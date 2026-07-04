@@ -58,8 +58,6 @@
 
         .rightSideBar {
             flex: 1.25;
-            border: 2px solid white;
-            border: 0.5px solid rgba(72, 72, 72, 0.53);
             border-radius: 12px;
             display: flex;
             flex-direction: column;
@@ -71,7 +69,7 @@
             align-items: center;
             justify-content: flex-end;
             padding: 20px;
-            border: 2px solid white
+            border: 2px solid rgba(255, 255, 255, 0)
         }
 
         .themeToggleLogo {
@@ -225,14 +223,13 @@
         #mainMenuArea {
             width: 90%;
             height: 400px;
-            border: 2px solid white;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
             flex: 1;
             padding: 19px;
-            gap: 15px;
+            border-radius: 12px;
         }
 
         #selectTime {
@@ -245,6 +242,7 @@
             box-sizing: border-box;
             border: 2px solid rgb(0, 0, 0);
             border-radius: 12px;
+            margin-bottom: 15px;
         }
 
         .timeBtn {
@@ -272,6 +270,7 @@
             width: 90%;
             gap: 15px;
             border-radius: 12px;
+            margin-bottom: 0px;
         }
 
         .modeBtn {
@@ -311,7 +310,19 @@
             letter-spacing: 3px;
             color: #EBECD0;
             text-align: center;
+            -webkit-text-stroke: 1.5px black;
+            padding: 0px;
+        }
+
+        #moveHistory {
+            flex: 1;
+            overflow-y: auto;
             border: 2px solid black;
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
     </style>
 </head>
@@ -421,7 +432,7 @@
                 </div>
 
                 <div id="modeArea">
-                    <button class="modeBtn">vs Player</button>
+                    <button class="modeBtn" id="start">vs Player</button>
                     <button class="modeBtn" disabled>vs Bot</button>
                 </div>
             </div>
@@ -459,10 +470,10 @@
             if (darkmode == true) {
                 localStorage.setItem("theme", "dark")
                 document.body.style.backgroundColor = "#474f3d";
-                timeArea.style.backgroundColor = "#474f3d";
-                timeArea.style.border = "none";
-                modeArea.style.backgroundColor = "#474f3d";
-                modeArea.style.border = "none"
+                timeArea.style.backgroundColor = "#757F6A";
+                timeArea.style.border = "0.5px solid #f8f8f48f";
+                modeArea.style.backgroundColor = "#757F6A";
+                modeArea.style.border = "0.5px solid #f8f8f48f"
 
                 themeIcon.src = "../static/img/lightMode.png";
             } else {

@@ -3,7 +3,13 @@ import { findKing, isKingInCheck, canCastle, pawnPromotion, needsPromotion, chec
 
 const canvas = document.getElementById("chessBoardCanvas");
 const ctx = canvas.getContext("2d");
+const mainMenu = document.getElementById("mainMenuArea")
+
 let gameOver = false
+
+document.getElementById("start").addEventListener("click", () => {
+    startGame()
+})
 
 
 let promotionRow;
@@ -17,7 +23,36 @@ let selectedPiece = null;
 let selectedRow = -1;
 let selectedCol = -1;
 let legalMoves = []
+let moveNumber = 1
+function startGame() {
+    mainMenu.innerHTML = `
+    <h1>MOVES</h1>
 
+        <div id="moveHistory"></div>
+    `
+}
+
+let currentMoveRow = null
+function addMove(move) {
+    const history = document.getElementById("moveHistory")
+
+    if (currentTurn === "w") {
+        currentMoveRow  = document.createElement("div")
+
+        currentMoveRow.textContent = `${moveNumber}. ${move}`;
+        history.appendChild(currentMoveRow)
+    } else {
+        currentMoveRow.textContent += `     ${move}`;
+        moveNumber++;
+    }
+
+    history.scrollTop = history.scrollHeight;
+}
+
+function squareName(row, col) {
+    const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+    return files[col] + (8 - row)
+}
 
 function showGameResult(title, color) {
 
@@ -544,7 +579,11 @@ canvas.addEventListener("click", async (event) => {
             }
 
 
-
+            const moveText =
+                selectedPiece[1] + " " +
+                squareName(selectedRow, selectedCol) +
+                " → " +
+                squareName(row, column);
 
 
             //UPDATING HASMOVED 
@@ -581,6 +620,8 @@ canvas.addEventListener("click", async (event) => {
                 toRow: row,
                 toCol: column
             };
+
+            addMove(moveText)
 
 
             if (
