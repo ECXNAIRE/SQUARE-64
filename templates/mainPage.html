@@ -229,8 +229,10 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: flex-start;
             flex: 1;
-            padding: 20px
+            padding: 19px;
+            gap: 15px;
         }
 
         #selectTime {
@@ -241,14 +243,15 @@
             height: 120px;
             padding: 15px;
             box-sizing: border-box;
-            border: 2px solid white;
+            border: 2px solid rgb(0, 0, 0);
+            border-radius: 12px;
         }
 
         .timeBtn {
             width: 100%;
             height: 100%;
             cursor: pointer;
-            border:0.5px solid rgb(0, 0, 0);
+            border: 2px solid rgb(0, 0, 0);
             border-radius: 10px;
             background-color: #EBECD0;
             transition: all 0.5s ease
@@ -264,14 +267,15 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
-            border: 2px solid white;
+            padding: 18px;
+            border: 2px solid rgb(0, 0, 0);
             width: 90%;
-            gap:15px
+            gap: 15px;
+            border-radius: 12px;
         }
 
         .modeBtn {
-            height: 45px;
+            height: 50px;
             width: 270px;
             border-radius: 12px;
             border: 2px solid black;
@@ -284,6 +288,7 @@
             padding: 10px;
             justify-content: center;
             background: #EBECD0;
+            font-size: 20px;
         }
 
         .modeBtn:hover {
@@ -294,11 +299,20 @@
         .modeBtn:disabled {
             cursor: not-allowed;
             transform: none;
-            opacity: 1;
+            opacity: 0.6;
             background-color: #EBECD0;
             color: black;
         }
 
+        #mainMenuArea h1 {
+            margin: 0 0 10px 0;
+            font-size: 50px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            color: #EBECD0;
+            text-align: center;
+            border: 2px solid black;
+        }
     </style>
 </head>
 
@@ -389,13 +403,14 @@
             </div>
         </div>
 
-        <div class="rightSideBar">
+        <div class="rightSideBar" id="rightSideBar">
             <div class="themeToggle">
                 <img id="themeIcon" class="themeToggleLogo " src="../static/img/lightMode.png">
             </div>
 
 
             <div id="mainMenuArea">
+                <h1>MAIN MENU</h1>
                 <div id="selectTime">
                     <button class="timeBtn">UNLIMITED</button>
                     <button class="timeBtn">30 mins</button>
@@ -429,6 +444,8 @@
         let darkmode = true;
         const themeIcon = document.getElementById("themeIcon");
         const savedTheme = localStorage.getItem("theme");
+        const timeArea = document.getElementById("selectTime")
+        const modeArea = document.getElementById("modeArea")
 
         if (savedTheme === "light") {
             darkmode = false;
@@ -442,11 +459,20 @@
             if (darkmode == true) {
                 localStorage.setItem("theme", "dark")
                 document.body.style.backgroundColor = "#474f3d";
+                timeArea.style.backgroundColor = "#474f3d";
+                timeArea.style.border = "none";
+                modeArea.style.backgroundColor = "#474f3d";
+                modeArea.style.border = "none"
 
                 themeIcon.src = "../static/img/lightMode.png";
             } else {
                 localStorage.setItem("theme", "light")
                 document.body.style.backgroundColor = "#F8F8F4";
+                timeArea.style.backgroundColor = "#757F6A";
+                timeArea.style.border = "solid 2px black";
+                modeArea.style.backgroundColor = "#757F6A";
+                modeArea.style.border = "solid 2px black"
+
 
                 themeIcon.src = "../static/img/darkMode.png";
             }
