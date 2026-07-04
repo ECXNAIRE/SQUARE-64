@@ -1,5 +1,5 @@
 import { isValid } from './piecesRules.js'
-import { isKingInCheck, canCastle, pawnPromotion, needsPromotion, checkLegalMoves, legalMoveCheckmate, legalMoveStalemate, doCastle } from './gameRules.js';
+import { findKing, isKingInCheck, canCastle, pawnPromotion, needsPromotion, checkLegalMoves, legalMoveCheckmate, legalMoveStalemate, doCastle } from './gameRules.js';
 
 const canvas = document.getElementById("chessBoardCanvas");
 const ctx = canvas.getContext("2d");
@@ -101,9 +101,9 @@ async function choosePromotion(piece) {
         isKingInCheck(board, enemyColor, lastMove, hasMoved)
     ) {
         if (currentTurn === "w") {
-            showGameResult("Checkmate", "WHITE won with a CHECKMATE", currentTurn);
+            showGameResult(currentTurn);
         } else {
-            showGameResult("Checkmate", "BLACK won with a CHECKMATE", currentTurn);
+            showGameResult(currentTurn);
         }
     }
     else if (legalMoveStalemate(board, enemyColor, hasMoved, lastMove, true) &&
@@ -240,6 +240,30 @@ function drawSquares() {
                 squareSize,
                 squareSize
             );
+
+            if (isKingInCheck(board, currentTurn, lastMove, hasMoved)) {
+                const king = findKing(board, currentTurn)
+
+                if (row === king.rowKing && column === king.colKing) {
+                    ctx.fillStyle = "#ff5c5c";
+                    ctx.strokeStyle = "white"
+                    ctx.lineWidth = 3
+
+                    ctx.fillRect(
+                        offset + displayColumn * squareSize,
+                        offset + displayRow * squareSize,
+                        squareSize,
+                        squareSize
+                    );
+
+                    ctx.strokeRect(
+                        offset + displayColumn * squareSize + 1.5,
+                        offset + displayRow * squareSize + 1.5,
+                        squareSize - 3,
+                        squareSize - 3
+                    );
+                }
+            }
 
             if (row === selectedRow && column === selectedCol) {
                 ctx.fillStyle = "#B8D97A";
@@ -626,8 +650,6 @@ function drawLegalMoves() {
 
         if (move.castle) {
             ctx.fillStyle = "#FFD700";
-            ctx.strokeStyle = "black";
-            ctx.lineWidth = 2;
 
             ctx.beginPath();
             ctx.arc(
@@ -639,7 +661,6 @@ function drawLegalMoves() {
             );
 
             ctx.fill();
-            ctx.stroke();
 
         }
         else if (move.piece !== "") {

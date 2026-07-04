@@ -1,7 +1,7 @@
 import { isValid } from "./piecesRules.js";
 
 
-function findKing(board, color) {
+export function findKing(board, color) {
 
     for (let row = 0; row < 8; row++) {
         for (let col = 0; col < 8; col++) {
@@ -162,8 +162,7 @@ export function checkLegalMoves(row, column, board, selectedPiece, hasMoved, las
         }
     }
 
-    console.log(canCastle(selectedPiece, 6, board, lastMove, hasMoved));
-
+    
     if (selectedPiece === "wK") {
 
         if (canCastle(selectedPiece, 6, board, lastMove, hasMoved)) {
