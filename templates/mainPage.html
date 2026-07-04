@@ -62,6 +62,8 @@
             display: flex;
             flex-direction: column;
             padding: 30px;
+            min-height: 0;
+            overflow: hidden;
         }
 
         .themeToggle {
@@ -222,7 +224,7 @@
 
         #mainMenuArea {
             width: 90%;
-            height: 400px;
+            min-height: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -230,6 +232,16 @@
             flex: 1;
             padding: 19px;
             border-radius: 12px;
+        }
+
+        #movesArea {
+            flex: 1;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+            width: 90%;
+            padding: 19px;
+            overflow: hidden;
         }
 
         #selectTime {
@@ -316,6 +328,7 @@
 
         #moveHistory {
             flex: 1;
+            min-height: 0;
             overflow-y: auto;
             border: 2px solid black;
             border-radius: 12px;
@@ -323,6 +336,29 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
+            width: 100%;
+            background-color: #757F6A;
+            border: 0.5px solid #f8f8f48f;
+        }
+
+        .moveRow {
+            display: grid;
+            grid-template-columns: 45px 1fr 1fr;
+            align-items: center;
+            padding: 10px 14px;
+            background: #EBECD0;
+            border-radius: 10px;
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        .moveNumber {
+            font-weight: bold;
+        }
+
+        .whiteMove,
+        .blackMove {
+            text-align: center;
         }
     </style>
 </head>
@@ -415,27 +451,6 @@
         </div>
 
         <div class="rightSideBar" id="rightSideBar">
-            <div class="themeToggle">
-                <img id="themeIcon" class="themeToggleLogo " src="../static/img/lightMode.png">
-            </div>
-
-
-            <div id="mainMenuArea">
-                <h1>MAIN MENU</h1>
-                <div id="selectTime">
-                    <button class="timeBtn">UNLIMITED</button>
-                    <button class="timeBtn">30 mins</button>
-                    <button class="timeBtn">10 mins</button>
-                    <button class="timeBtn">5 mins</button>
-                    <button class="timeBtn">3 mins</button>
-                    <button class="timeBtn"> 3 | 2</button>
-                </div>
-
-                <div id="modeArea">
-                    <button class="modeBtn" id="start">vs Player</button>
-                    <button class="modeBtn" disabled>vs Bot</button>
-                </div>
-            </div>
 
         </div>
     </div>
@@ -470,19 +485,11 @@
             if (darkmode == true) {
                 localStorage.setItem("theme", "dark")
                 document.body.style.backgroundColor = "#474f3d";
-                timeArea.style.backgroundColor = "#757F6A";
-                timeArea.style.border = "0.5px solid #f8f8f48f";
-                modeArea.style.backgroundColor = "#757F6A";
-                modeArea.style.border = "0.5px solid #f8f8f48f"
 
                 themeIcon.src = "../static/img/lightMode.png";
             } else {
                 localStorage.setItem("theme", "light")
                 document.body.style.backgroundColor = "#F8F8F4";
-                timeArea.style.backgroundColor = "#757F6A";
-                timeArea.style.border = "solid 2px black";
-                modeArea.style.backgroundColor = "#757F6A";
-                modeArea.style.border = "solid 2px black"
 
 
                 themeIcon.src = "../static/img/darkMode.png";

@@ -6,8 +6,10 @@ const ctx = canvas.getContext("2d");
 const mainMenu = document.getElementById("mainMenuArea")
 
 let gameOver = false
+let gameStart = false
 
 document.getElementById("start").addEventListener("click", () => {
+    gameStart = true
     startGame()
 })
 
@@ -23,31 +25,7 @@ let selectedPiece = null;
 let selectedRow = -1;
 let selectedCol = -1;
 let legalMoves = []
-let moveNumber = 1
-function startGame() {
-    mainMenu.innerHTML = `
-    <h1>MOVES</h1>
 
-        <div id="moveHistory"></div>
-    `
-}
-
-let currentMoveRow = null
-function addMove(move) {
-    const history = document.getElementById("moveHistory")
-
-    if (currentTurn === "w") {
-        currentMoveRow  = document.createElement("div")
-
-        currentMoveRow.textContent = `${moveNumber}. ${move}`;
-        history.appendChild(currentMoveRow)
-    } else {
-        currentMoveRow.textContent += `     ${move}`;
-        moveNumber++;
-    }
-
-    history.scrollTop = history.scrollHeight;
-}
 
 function squareName(row, col) {
     const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
@@ -422,6 +400,8 @@ function sleep(ms) {
 
 canvas.addEventListener("click", async (event) => {
 
+    if (!gameStart) return;
+
     if (gameOver) return;
 
     const rect = canvas.getBoundingClientRect();
@@ -579,12 +559,6 @@ canvas.addEventListener("click", async (event) => {
             }
 
 
-            const moveText =
-                selectedPiece[1] + " " +
-                squareName(selectedRow, selectedCol) +
-                " → " +
-                squareName(row, column);
-
 
             //UPDATING HASMOVED 
             if (selectedPiece === "wK") hasMoved.wK = true;
@@ -620,8 +594,6 @@ canvas.addEventListener("click", async (event) => {
                 toRow: row,
                 toCol: column
             };
-
-            addMove(moveText)
 
 
             if (
