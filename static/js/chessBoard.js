@@ -116,6 +116,33 @@ function squareName(row, col) {
     return files[col] + (8 - row)
 }
 
+
+function moveNotation(piece, fromRow, fromCol, toRow, toCol, capturedPiece) {
+
+    const pieceLetter = {
+        P: "",
+        N: "N",
+        B: "B",
+        R: "R",
+        Q: "Q",
+        K: "K"
+    }
+
+    const destination = squareName(toRow, toCol);
+
+    const letter = pieceLetter[piece[1]]
+
+    if(capturedPiece !== "") {
+        if(piece[1] === "P") {
+            return squareName(fromRow, fromCol)[0] + "x" + destination;
+        }
+
+        return letter + "x" + destination;
+    }
+
+    return letter + destination
+}
+
 function showGameResult(text, color) {
 
     gameOver = true;
@@ -707,15 +734,22 @@ canvas.addEventListener("click", async (event) => {
             drawBoard();
             await sleep(500);
 
-            const moveText = selectedPiece[1] + squareName(row, column)
+            const notation = moveNotation(
+                selectedPiece,
+                selectedRow,
+                selectedCol,
+                row,
+                column,
+                capturedPiece
+            )
 
             if(currentTurn === "w") {
                 moveHistory.push({
-                    white:moveText,
+                    white:notation,
                     black: ""
                 })
             } else {
-                moveHistory[moveHistory.length - 1].black = moveText
+                moveHistory[moveHistory.length - 1].black = notation
             }
 
             renderMoves()
