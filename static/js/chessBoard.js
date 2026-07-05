@@ -15,7 +15,6 @@ const promoteN = document.getElementById("promoteN");
 console.log(gameTime)
 
 let gameOver = false
-let gameStart = false
 
 
 let promotionRow;
@@ -26,8 +25,13 @@ let selectedRow = -1;
 let selectedCol = -1;
 let legalMoves = []
 
-let whiteTime = localStorage.getItem("gameTime")
-let blackTime = localStorage.getItem("gameTime")
+
+let timer = null;
+let whiteMove = false
+let blackMove = false
+
+let whiteTime = Number(localStorage.getItem("gameTime"))
+let blackTime = Number(localStorage.getItem("gameTime"))
 
 function formatTime(seconds) {
     if (seconds === Infinity) {
@@ -45,6 +49,44 @@ function updateTimers() {
     blackTimer.textContent = formatTime(blackTime)
 }
 
+function startWhiteTimer() {
+    if (whiteTime === Infinity) return;
+    clearInterval(timer);
+
+    timer = setInterval(() => {
+        if (whiteTime > 0) {
+            whiteTime--;
+            updateTimers()
+        }
+
+        if (whiteTime === 0) {
+            clearInterval(timer);
+
+            //WILL ADD HERE TIME WIN FOR NOW CHECKMATE
+            showGameResult(currentTurn)
+        }
+    }, 1000)
+}
+
+function startBlackTimer() {
+    if (blackTime === Infinity) return;
+    clearInterval(timer);
+
+    timer = setInterval(() => {
+        if (blackTime > 0) {
+            blackTime--;
+            updateTimers()
+        }
+
+        if (blackTime === 0) {
+            clearInterval(timer);
+
+            //WILL ADD HERE TIME WIN FOR NOW CHECKMATE
+            showGameResult(currentTurn)
+        }
+    }, 1000)
+}
+
 updateTimers()
 
 
@@ -54,7 +96,6 @@ function squareName(row, col) {
 }
 
 function showGameResult(title, color) {
-
 
     gameOver = true
 
@@ -420,9 +461,6 @@ function sleep(ms) {
 
 
 canvas.addEventListener("click", async (event) => {
-
-    if (!gameStart) return;
-
     if (gameOver) return;
 
     const rect = canvas.getBoundingClientRect();
@@ -637,6 +675,25 @@ canvas.addEventListener("click", async (event) => {
 
             drawBoard();
             await sleep(500);
+
+            if (whiteTime !== Infinity) {
+
+                if (currentTurn === "w") {
+                    if (!whiteMove) {
+                        whiteMove = true
+                    } else {
+                        startBlackTimer()
+                    }
+                } else {
+                    if (!blackMove) {
+                        blackMove = true
+                        startWhiteTimer()
+                    } else {
+                        startWhiteTimer()
+                    }
+                }
+
+            }
 
             if (currentTurn === "w") {
                 currentTurn = "b";
