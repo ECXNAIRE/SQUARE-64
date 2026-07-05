@@ -11,6 +11,8 @@ const promoteQ = document.getElementById("promoteQ");
 const promoteR = document.getElementById("promoteR");
 const promoteB = document.getElementById("promoteB");
 const promoteN = document.getElementById("promoteN");
+const movesList = document.getElementById("movesList");
+let moveHistory = []
 
 console.log(gameTime)
 
@@ -32,6 +34,25 @@ let blackMove = false
 
 let whiteTime = Number(localStorage.getItem("gameTime"))
 let blackTime = Number(localStorage.getItem("gameTime"))
+
+
+function renderMoves () {
+    movesList.innerHTML = ""
+
+    moveHistory.forEach((move, index) => {
+        const row=document.createElement("div");
+        row.className = "moveRow";
+
+        row.innerHTML = `
+        <div class="moveNumber">${index+1}.</div>
+        <div class="whiteMove">${move.white ?? ""}</div>
+        <div class="blackMove">${move.black ?? ""}</div>`;
+
+
+        movesList.appendChild(row);
+
+    });
+}
 
 function formatTime(seconds) {
     if (seconds === Infinity) {
@@ -685,6 +706,19 @@ canvas.addEventListener("click", async (event) => {
 
             drawBoard();
             await sleep(500);
+
+            const moveText = selectedPiece[1] + squareName(row, column)
+
+            if(currentTurn === "w") {
+                moveHistory.push({
+                    white:moveText,
+                    black: ""
+                })
+            } else {
+                moveHistory[moveHistory.length - 1].black = moveText
+            }
+
+            renderMoves()
 
             if (whiteTime !== Infinity) {
                 if (currentTurn === "w") {

@@ -221,146 +221,7 @@
             object-fit: contain;
             border-radius: 18px;
         }
-
-        #mainMenuArea {
-            width: 90%;
-            min-height: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            flex: 1;
-            padding: 19px;
-            border-radius: 12px;
-        }
-
-        #movesArea {
-            flex: 1;
-            min-height: 0;
-            display: flex;
-            flex-direction: column;
-            width: 90%;
-            padding: 19px;
-            overflow: hidden;
-        }
-
-        #selectTime {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            width: 100%;
-            height: 120px;
-            padding: 15px;
-            box-sizing: border-box;
-            border: 2px solid rgb(0, 0, 0);
-            border-radius: 12px;
-            margin-bottom: 15px;
-        }
-
-        .timeBtn {
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-            border: 2px solid rgb(0, 0, 0);
-            border-radius: 10px;
-            background-color: #EBECD0;
-            transition: all 0.5s ease
-        }
-
-        .timeBtn:hover {
-            transform: scale(1.08);
-            background: #B8D97A
-        }
-
-        #modeArea {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 18px;
-            border: 2px solid rgb(0, 0, 0);
-            width: 90%;
-            gap: 15px;
-            border-radius: 12px;
-            margin-bottom: 0px;
-        }
-
-        .modeBtn {
-            height: 50px;
-            width: 270px;
-            border-radius: 12px;
-            border: 2px solid black;
-            transition: all 0.3s ease;
-            letter-spacing: 2px;
-            cursor: pointer;
-            display: flex;
-            position: relative;
-            align-items: center;
-            padding: 10px;
-            justify-content: center;
-            background: #EBECD0;
-            font-size: 20px;
-        }
-
-        .modeBtn:hover {
-            transform: scale(1.05);
-            background-color: #B8D97A;
-        }
-
-        .modeBtn:disabled {
-            cursor: not-allowed;
-            transform: none;
-            opacity: 0.6;
-            background-color: #EBECD0;
-            color: black;
-        }
-
-        #mainMenuArea h1 {
-            margin: 0 0 10px 0;
-            font-size: 50px;
-            font-weight: 900;
-            letter-spacing: 3px;
-            color: #EBECD0;
-            text-align: center;
-            -webkit-text-stroke: 1.5px black;
-            padding: 0px;
-        }
-
-        #moveHistory {
-            flex: 1;
-            min-height: 0;
-            overflow-y: auto;
-            border: 2px solid black;
-            border-radius: 12px;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            width: 100%;
-            background-color: #757F6A;
-            border: 0.5px solid #f8f8f48f;
-        }
-
-        .moveRow {
-            display: grid;
-            grid-template-columns: 45px 1fr 1fr;
-            align-items: center;
-            padding: 10px 14px;
-            background: #EBECD0;
-            border-radius: 10px;
-            box-sizing: border-box;
-            width: 100%;
-        }
-
-        .moveNumber {
-            font-weight: bold;
-        }
-
-        .whiteMove,
-        .blackMove {
-            text-align: center;
-        }
-
+        
         .time {
             display: flex;
             align-items: center;
@@ -369,6 +230,58 @@
             font-weight: bolds;
             color: rgba(0, 0, 0, 0.638)
         }
+
+        #movesArea {
+            border: 2px solid rgb(0, 0, 0);
+            background-color: #EBECD0;
+            height: 550px;
+            border-radius: 12px;
+        }
+
+        #movesArea h3 {
+            display: flex;
+            justify-content: center;
+        }
+
+        #movesList {
+            display:flex;
+            flex-direction: column;
+            overflow-y: auto;
+            height: 450px;
+            border-top: 2px solid black;
+            border-bottom: 2px solid black;
+        }
+
+        .moveRow {
+            display:grid;
+            grid-template-columns: 50px 1fr 1fr;
+            align-items: center;
+            min-height:42px;
+            padding: 0 12px;
+            font-size: 20px;
+        }
+
+        .moveRow:nth-child(odd) {
+            background:#F8F8F4;
+        }
+
+        .moveRow:nth-child(even) {
+            background: #E2E4C6;
+        }
+
+        .moveNumber {
+            font-weight: bold;
+            color:#555;
+        }
+
+        .whiteMove {
+            text-align: center;
+        }
+
+        .blackMove {
+            text-align: center;
+        }
+
     </style>
 </head>
 
@@ -462,6 +375,14 @@
         <div class="rightSideBar" id="rightSideBar">
             <div class="themeToggle">
                 <img id="themeIcon" class="themeToggleLogo " src="../static/img/lightMode.png">
+            </div>
+
+
+            <div id="movesArea">
+                <h3>MOVES</h3>
+
+                <div id="movesList"></div>
+
             </div>
         </div>
     </div>
