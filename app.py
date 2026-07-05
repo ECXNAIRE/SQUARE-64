@@ -6,6 +6,10 @@ app = Flask(__name__)
 def landingPage():
     return render_template("landingPage.html")
 
+@app.route("/menu") 
+def menuPage():
+    return render_template("menuPage.html")
+
 
 @app.route("/main")
 def mainPage():

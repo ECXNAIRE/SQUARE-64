@@ -13,7 +13,7 @@ cancelBtn.addEventListener("click", () => {
 });
 
 continueBtn.addEventListener("click", () => {
-    window.location.href = "/main";
+    window.location.href = "/menu";
 });
 
 popup.addEventListener ("click", (event) => {

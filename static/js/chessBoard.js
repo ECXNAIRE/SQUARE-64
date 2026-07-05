@@ -3,7 +3,6 @@ import { findKing, isKingInCheck, canCastle, pawnPromotion, needsPromotion, chec
 
 const canvas = document.getElementById("chessBoardCanvas");
 const ctx = canvas.getContext("2d");
-const mainMenu = document.getElementById("mainMenuArea")
 
 let gameOver = false
 let gameStart = false

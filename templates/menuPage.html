@@ -8,7 +8,15 @@
 
     <style>
         body {
-            background: #474f3d;
+            background: #EBECD0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: sans-serif;
+        }
+
+        #mainArea {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -17,13 +25,70 @@
 
         #mainArea h1 {
             margin: 0 0 10px 0;
-            font-size: 50px;
+            font-size: 100px;
             font-weight: 900;
             letter-spacing: 3px;
-            color: #EBECD0;
+            color: #474f3d;
             text-align: center;
-            -webkit-text-stroke: 1.5px black;
-            padding: 0px;
+            -webkit-text-stroke: 2px #F8F8F4;
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 100px;
+            border: 2px solid rgba(0, 0, 0, 0);
+        }
+
+
+        #timeSelectArea {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            border: 2px solid rgba(0, 0, 0, 0);
+            width: 470px;
+
+        }
+
+        .timeBtn {
+            width: 150px;
+            height: 40px;
+            border: 2px solid black;
+            border-radius: 12px;
+            transition: all 0.5s ease;
+        }
+
+
+        .timeBtn:hover {
+            background-color: #739552;
+            transform: scale(1.08);
+            cursor: pointer;
+        }
+
+
+        #playBtn {
+            background-color: #474f3d;
+            width: 300px;
+            height: 40px;
+            border: 2px solid black;
+            border-radius: 12px;
+            color: #F8F8F4;
+            font-size: 20px;
+            transition: all 0.5s ease;
+        }
+
+        #playBtn:hover {
+            transform: scale(1.05);
+            background-color: #F8F8F4;
+            color: black;
+            cursor: pointer;
+        }
+
+        #btnArea {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 30px;
         }
     </style>
 </head>
@@ -31,19 +96,23 @@
 <body>
 
     <div id="mainArea">
-        <h1> MAIN MENU</h1>
+        <div id="heading">
+            <h1>MAIN MENU</h1>
+        </div>
         <div id="menuArea">
             <div id="timeSelectArea">
                 <button class="timeBtn">UNLIMITED</button>
                 <button class="timeBtn">30 mins</button>
                 <button class="timeBtn">10 mins</button>
                 <button class="timeBtn">5 mins</button>
-                <button classs="timeBtn">3 mins</button>
+                <button class="timeBtn">3 mins</button>
                 <button class="timeBtn"> 3 | 0</button>
 
             </div>
 
-            <button id="playBtn">START</button>
+            <div id="btnArea">
+                <button id="playBtn">START</button>
+            </div>
         </div>
     </div>
 
