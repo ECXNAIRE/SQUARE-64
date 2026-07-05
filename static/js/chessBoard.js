@@ -63,7 +63,7 @@ function startWhiteTimer() {
             clearInterval(timer);
 
             //WILL ADD HERE TIME WIN FOR NOW CHECKMATE
-            showGameResult(currentTurn)
+            showGameResult("timeout", currentTurn)
         }
     }, 1000)
 }
@@ -82,7 +82,7 @@ function startBlackTimer() {
             clearInterval(timer);
 
             //WILL ADD HERE TIME WIN FOR NOW CHECKMATE
-            showGameResult(currentTurn)
+            showGameResult("timeout", currentTurn)
         }
     }, 1000)
 }
@@ -95,17 +95,27 @@ function squareName(row, col) {
     return files[col] + (8 - row)
 }
 
-function showGameResult(title, color) {
+function showGameResult(text, color) {
 
-    gameOver = true
-
+    gameOver = true;
+    clearInterval(timer);
     const gameResultImg = document.getElementById("gameResultImg");
     const gameResult = document.getElementById("gameResult")
 
-    if (color === "w") {
-        gameResultImg.src = "../static/img/whiteMate.png";
-    } else {
-        gameResultImg.src = "../static/img/blackMate.png";
+    if (text === "checkmate") {
+        if (color === "w") {
+            gameResultImg.src = "../static/img/whiteMate.png";
+        } else {
+            gameResultImg.src = "../static/img/blackMate.png";
+        }
+    } else if(text === "stalemate"){
+        gameResultImg.src= "../static/img/legalMoveStalemate.png";
+    } else if(text === "timeout") {
+        if(currentTurn === "w") {
+            gameResultImg.src = "../static/img/blackTimeOut.png"
+        } else {
+            gameResultImg.src = "../static/img/whiteTimeOut.png"
+        }
     }
 
     gameResult.classList.remove("hidden");
@@ -176,15 +186,15 @@ async function choosePromotion(piece) {
         isKingInCheck(board, enemyColor, lastMove, hasMoved)
     ) {
         if (currentTurn === "w") {
-            showGameResult(currentTurn);
+            showGameResult("checkmate", currentTurn);
         } else {
-            showGameResult(currentTurn);
+            showGameResult("checkmate", currentTurn);
         }
     }
     else if (legalMoveStalemate(board, enemyColor, hasMoved, lastMove, true) &&
         !isKingInCheck(board, enemyColor, lastMove, hasMoved)
     ) {
-        showGameResult("Stalemate", "The game is a draw.");
+        showGameResult("stalemate", currentTurn);
     }
 
     updateCaptureCounts();
@@ -660,15 +670,15 @@ canvas.addEventListener("click", async (event) => {
                 isKingInCheck(board, enemyColor, lastMove, hasMoved)
             ) {
                 if (currentTurn === "w") {
-                    showGameResult(currentTurn);
+                    showGameResult("checkmate", currentTurn);
                 } else {
-                    showGameResult(currentTurn);
+                    showGameResult("checkmate", currentTurn);
                 }
             }
             else if (legalMoveStalemate(board, enemyColor, hasMoved, lastMove, true) &&
                 !isKingInCheck(board, enemyColor, lastMove, hasMoved)
             ) {
-                showGameResult("Stalemate", "The game is a draw.");
+                showGameResult("stalemate", currentTurn);
             }
 
             updateCaptureCounts();
@@ -677,7 +687,6 @@ canvas.addEventListener("click", async (event) => {
             await sleep(500);
 
             if (whiteTime !== Infinity) {
-
                 if (currentTurn === "w") {
                     if (!whiteMove) {
                         whiteMove = true
