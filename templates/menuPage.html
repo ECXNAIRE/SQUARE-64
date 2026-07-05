@@ -52,7 +52,7 @@
 
         .timeBtn {
             width: 150px;
-            height: 40px;
+            height: 45px;
             border: 2px solid black;
             border-radius: 12px;
             transition: all 0.5s ease;
@@ -68,8 +68,8 @@
 
         #playBtn {
             background-color: #474f3d;
-            width: 300px;
-            height: 40px;
+            width: 270px;
+            height: 45px;
             border: 2px solid black;
             border-radius: 12px;
             color: #F8F8F4;
@@ -90,6 +90,13 @@
             justify-content: center;
             margin-top: 30px;
         }
+
+        .timeBtn.selected {
+            background-color: #739552;
+            color: white;
+            transform: scale(1.08);
+            border: 2px solid #474f3d;
+        }
     </style>
 </head>
 
@@ -101,12 +108,12 @@
         </div>
         <div id="menuArea">
             <div id="timeSelectArea">
-                <button class="timeBtn">UNLIMITED</button>
-                <button class="timeBtn">30 mins</button>
-                <button class="timeBtn">10 mins</button>
-                <button class="timeBtn">5 mins</button>
-                <button class="timeBtn">3 mins</button>
-                <button class="timeBtn"> 3 | 0</button>
+                <button class="timeBtn" data-time="0">UNLIMITED</button>
+                <button class="timeBtn" data-time="1800">30 mins</button>
+                <button class="timeBtn" data-time="600">10 mins</button>
+                <button class="timeBtn" data-time="300">5 mins</button>
+                <button class="timeBtn" data-time="180">3 mins</button>
+                <button class="timeBtn" data-time="60">1 mins</button>
 
             </div>
 
@@ -115,6 +122,29 @@
             </div>
         </div>
     </div>
+
+    <script>
+        let selectedTime = 0;
+
+        document.querySelectorAll(".timeBtn").forEach(btn => {
+            btn.addEventListener("click", () => {
+
+                document.querySelectorAll(".timeBtn").forEach(btn => {
+                    btn.classList.remove("selected")
+                });
+
+                btn.classList.add("selected")
+                selectedTime = Number(btn.dataset.time);
+            })
+        })
+
+
+        document.getElementById("playBtn").addEventListener("click", () => {
+            localStorage.setItem("gameTime", selectedTime)
+
+            window.location.href = "/main"
+        })
+    </script>
 
 </body>
 

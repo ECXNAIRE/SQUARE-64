@@ -3,27 +3,49 @@ import { findKing, isKingInCheck, canCastle, pawnPromotion, needsPromotion, chec
 
 const canvas = document.getElementById("chessBoardCanvas");
 const ctx = canvas.getContext("2d");
-
-let gameOver = false
-let gameStart = false
-
-document.getElementById("start").addEventListener("click", () => {
-    gameStart = true
-    startGame()
-})
-
-
-let promotionRow;
-let promotionCol;
+const gameTime = localStorage.getItem("gameTime")
+const whiteTimer = document.getElementById("timeWhite")
+const blackTimer = document.getElementById("timeBlack")
 const promotionMenu = document.getElementById("promotionMenu");
 const promoteQ = document.getElementById("promoteQ");
 const promoteR = document.getElementById("promoteR");
 const promoteB = document.getElementById("promoteB");
 const promoteN = document.getElementById("promoteN");
+
+console.log(gameTime)
+
+let gameOver = false
+let gameStart = false
+
+
+let promotionRow;
+let promotionCol;
+
 let selectedPiece = null;
 let selectedRow = -1;
 let selectedCol = -1;
 let legalMoves = []
+
+let whiteTime = localStorage.getItem("gameTime")
+let blackTime = localStorage.getItem("gameTime")
+
+function formatTime(seconds) {
+    if (seconds === Infinity) {
+        return "∞";
+    }
+
+    const mins = Math.floor(seconds / 60)
+    const secs = seconds % 60
+
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
+}
+
+function updateTimers() {
+    whiteTimer.textContent = formatTime(whiteTime)
+    blackTimer.textContent = formatTime(blackTime)
+}
+
+updateTimers()
 
 
 function squareName(row, col) {
