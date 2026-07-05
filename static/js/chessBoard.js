@@ -132,7 +132,7 @@ function moveNotation(piece, fromRow, fromCol, toRow, toCol, capturedPiece) {
 
     const letter = pieceLetter[piece[1]]
 
-    if(capturedPiece !== "") {
+    if(capturedPiece !== "" || isValidMove.enPassant) {
         if(piece[1] === "P") {
             return squareName(fromRow, fromCol)[0] + "x" + destination;
         }
