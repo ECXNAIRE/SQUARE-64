@@ -145,6 +145,8 @@ function moveNotation(piece, fromRow, fromCol, toRow, toCol, capturedPiece) {
 
 function showGameResult(text, color) {
 
+    console.log("gameover", text, color)
+
     gameOver = true;
     clearInterval(timer);
     const gameResultImg = document.getElementById("gameResultImg");
@@ -754,7 +756,7 @@ canvas.addEventListener("click", async (event) => {
 
             renderMoves()
 
-            if (whiteTime !== Infinity) {
+            if (!gameOver && whiteTime !== Infinity) {
                 if (currentTurn === "w") {
                     if (!whiteMove) {
                         whiteMove = true
