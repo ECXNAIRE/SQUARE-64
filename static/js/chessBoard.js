@@ -38,15 +38,15 @@ let whiteTime = Number(localStorage.getItem("gameTime"))
 let blackTime = Number(localStorage.getItem("gameTime"))
 
 
-function renderMoves () {
+function renderMoves() {
     movesList.innerHTML = ""
 
     moveHistory.forEach((move, index) => {
-        const row=document.createElement("div");
+        const row = document.createElement("div");
         row.className = "moveRow";
 
         row.innerHTML = `
-        <div class="moveNumber">${index+1}.</div>
+        <div class="moveNumber">${index + 1}.</div>
         <div class="whiteMove">${move.white ?? ""}</div>
         <div class="blackMove">${move.black ?? ""}</div>`;
 
@@ -134,8 +134,8 @@ function moveNotation(piece, fromRow, fromCol, toRow, toCol, capturedPiece) {
 
     const letter = pieceLetter[piece[1]]
 
-    if(capturedPiece !== "" || isValidMove.enPassant) {
-        if(piece[1] === "P") {
+    if (capturedPiece !== "" || isValidMove.enPassant) {
+        if (piece[1] === "P") {
             return squareName(fromRow, fromCol)[0] + "x" + destination;
         }
 
@@ -160,10 +160,10 @@ function showGameResult(text, color) {
         } else {
             gameResultImg.src = "../static/img/blackMate.png";
         }
-    } else if(text === "stalemate"){
-        gameResultImg.src= "../static/img/legalMoveStalemate.png";
-    } else if(text === "timeout") {
-        if(currentTurn === "w") {
+    } else if (text === "stalemate") {
+        gameResultImg.src = "../static/img/legalMoveStalemate.png";
+    } else if (text === "timeout") {
+        if (currentTurn === "w") {
             gameResultImg.src = "../static/img/blackTimeOut.png"
         } else {
             gameResultImg.src = "../static/img/whiteTimeOut.png"
@@ -632,6 +632,65 @@ canvas.addEventListener("click", async (event) => {
 
             console.log(canCastle(selectedPiece, column, board, lastMove, hasMoved))
 
+            const capturedPiece = target
+
+            board[row][column] = selectedPiece;
+            board[selectedRow][selectedCol] = ""
+
+
+            if (isValidMove.castle) {
+                doCastle(selectedPiece, column, board);
+            }
+
+
+
+            if (isKingInCheck(board, currentTurn, lastMove, hasMoved)) {
+
+                board[selectedRow][selectedCol] = selectedPiece;
+                board[row][column] = capturedPiece;
+
+
+
+                //THIS IS UNDO CASTLE DO CASLT ALREDY DONE
+                if (isValidMove.castle) {
+                    if (column === 6) {
+                        board[selectedRow][7] = board[selectedRow][5];
+                        board[selectedRow][5] = "";
+                    } else if (column === 2) {
+                        board[selectedRow][0] = board[selectedRow][3];
+                        board[selectedRow][3] = ""
+                    }
+                }
+
+
+                //this is undo enpasssant 
+
+                if (isValidMove.enPassant) {
+                    board[lastMove.toRow][lastMove.toCol] = lastMove.piece
+                }
+
+                drawBoard();
+                return
+            }
+
+
+
+
+            board[selectedRow][selectedCol] = selectedPiece;
+            board[row][column] = capturedPiece
+
+
+            if (isValidMove.castle) {
+                if (column === 6) {
+                    board[selectedRow][7] = board[selectedRow][5];
+                    board[selectedRow][5] = "";
+                }
+            }
+
+            if (isValidMove.enPassant) {
+                board[lastMove.toRow][lastMove.toCol] = lastMove.piece
+            }
+
             await animateMove(
                 selectedPiece,
                 selectedRow,
@@ -639,45 +698,13 @@ canvas.addEventListener("click", async (event) => {
                 row,
                 column,
                 drawBoard
-            )
-
+            );
 
             board[row][column] = selectedPiece;
             board[selectedRow][selectedCol] = "";
 
             if (isValidMove.castle) {
-                doCastle(selectedPiece, column, board)
-            }
-
-            const capturedPiece = target;
-            let capturedPieceType = null;
-            if (capturedPiece !== "") {
-                capturedPieceType = capturedPiece[1];
-            }
-            if (isKingInCheck(board, currentTurn, lastMove, hasMoved)) {
-                board[selectedRow][selectedCol] = selectedPiece;
-                board[row][column] = capturedPiece;
-
-                if (capturedPieceType !== null) {
-                    if (currentTurn === "w") {
-                        captureCounts.blacks[capturedPieceType]--;
-                    } else {
-                        captureCounts.whites[capturedPieceType]--;
-                    }
-                }
-
-
-                if (isValidMove.enPassant) {
-                    board[lastMove.toRow][lastMove.toCol] = lastMove.piece
-
-                    if (lastMove.piece[0] === "w") {
-                        captureCounts.whites.P--;
-                    } else {
-                        captureCounts.blacks.P--;
-                    }
-                }
-                drawBoard();
-                return
+                doCastle(selectedPiece, column, board);
             }
 
 
@@ -756,9 +783,9 @@ canvas.addEventListener("click", async (event) => {
                 capturedPiece
             )
 
-            if(currentTurn === "w") {
+            if (currentTurn === "w") {
                 moveHistory.push({
-                    white:notation,
+                    white: notation,
                     black: ""
                 })
             } else {
