@@ -1,5 +1,7 @@
 import { isValid } from './piecesRules.js'
 import { findKing, isKingInCheck, canCastle, pawnPromotion, needsPromotion, checkLegalMoves, legalMoveCheckmate, legalMoveStalemate, doCastle } from './gameRules.js';
+import { animation, animateMove, drawAnimation } from './animation.js';
+
 
 const canvas = document.getElementById("chessBoardCanvas");
 const ctx = canvas.getContext("2d");
@@ -346,10 +348,10 @@ canvas.height = 700;
 function drawBoard() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-
     drawSquares();
     drawLegalMoves();
     drawPieces();
+    drawAnimation(ctx, pieces, squareSize, offset, boardOrientation)
     drawCoordinates();
     updateCaptureCounts();
 }
@@ -629,6 +631,15 @@ canvas.addEventListener("click", async (event) => {
             }
 
             console.log(canCastle(selectedPiece, column, board, lastMove, hasMoved))
+
+            await animateMove(
+                selectedPiece,
+                selectedRow,
+                selectedCol,
+                row,
+                column,
+                drawBoard
+            )
 
 
             board[row][column] = selectedPiece;
