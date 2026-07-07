@@ -86,7 +86,7 @@ export function canCastle(piece, toCol, board, lastMove, hasMoved) {
 
     if (piece === "wK" && toCol === 2) {
 
-        if(hasMoved.wK || hasMoved.wRleft) return false
+        if(hasMoved.wK || hasMoved.wRLeft) return false
 
         if(
             board[7][1] !== "" ||
@@ -132,7 +132,7 @@ export function canCastle(piece, toCol, board, lastMove, hasMoved) {
         if(board[0][1] !== "" ||
             board[0][2] !== "" ||
             board[0][3] !== ""
-        )
+        ) return false
 
         if (
             isSquareAttacked(0, 4, "b", board, lastMove, hasMoved) ||
