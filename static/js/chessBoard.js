@@ -19,7 +19,7 @@ let moveHistory = []
 console.log(gameTime)
 
 let gameOver = false
-
+let inputLocked = false;
 
 let promotionRow;
 let promotionCol;
@@ -502,6 +502,15 @@ function drawPieces() {
                     displayRow = 7 - row;
                     displayColumn = 7 - column;
                 }
+
+                if (
+                    animation &&
+                    row === animation.toRow &&
+                    column === animation.toCol &&
+                    piece === animation.piece
+                ) {
+                    continue;
+                }
                 ctx.drawImage(
                     pieces[piece],
                     offset + displayColumn * squareSize,
@@ -523,7 +532,7 @@ function sleep(ms) {
 
 
 canvas.addEventListener("click", async (event) => {
-    if (gameOver) return;
+    if (gameOver || inputLocked) return;
 
     const rect = canvas.getBoundingClientRect();
 
@@ -691,6 +700,18 @@ canvas.addEventListener("click", async (event) => {
                 board[lastMove.toRow][lastMove.toCol] = lastMove.piece
             }
 
+
+
+            board[selectedRow][selectedCol] = "";
+
+
+            board[row][column] = selectedPiece;
+
+            if (isValidMove.castle) {
+                doCastle(selectedPiece, column, board);
+            }
+
+
             await animateMove(
                 selectedPiece,
                 selectedRow,
@@ -700,12 +721,6 @@ canvas.addEventListener("click", async (event) => {
                 drawBoard
             );
 
-            board[row][column] = selectedPiece;
-            board[selectedRow][selectedCol] = "";
-
-            if (isValidMove.castle) {
-                doCastle(selectedPiece, column, board);
-            }
 
 
             let enemyColor;
@@ -772,6 +787,8 @@ canvas.addEventListener("click", async (event) => {
             updateCaptureCounts();
 
             drawBoard();
+
+            inputLocked = true
             await sleep(500);
 
             const notation = moveNotation(
@@ -819,6 +836,8 @@ canvas.addEventListener("click", async (event) => {
                 currentTurn = "w";
                 boardOrientation = "white";
             }
+
+            inputLocked = false
 
 
         }

@@ -14,6 +14,10 @@ export function findKing(board, color) {
         }
     }
 
+    console.log("KING NOT FOUND");
+    console.log(color);
+    console.table(board);
+
 }
 
 
@@ -96,7 +100,7 @@ export function canCastle(piece, toCol, board, lastMove, hasMoved) {
             isSquareAttacked(7, 4, "w", board, lastMove, hasMoved) ||
             isSquareAttacked(7, 3, "w", board, lastMove, hasMoved) ||
             isSquareAttacked(7, 2, "w", board, lastMove, hasMoved) ||
-            isSquareAttacked(7, 1, "w", baord, lastMove, hasMoved)
+            isSquareAttacked(7, 1, "w", board, lastMove, hasMoved)
         ) {
             return false;
         }

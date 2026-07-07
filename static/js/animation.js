@@ -4,7 +4,7 @@ export async function animateMove(piece, fromRow, fromCol, toRow, toCol, drawBoa
     return new Promise(resolve => {
 
 
-        const duration = 200;
+        const duration = 100;
         const start = performance.now();
 
         animation = {
