@@ -6,34 +6,33 @@ A fully playable chess game buil from scratch using **HTML, CSS, and Vanilla Jav
 ---
 
 # MOTIVATION
-I wanted to challenge myself by building one of the most logic-heavy game without using any external chess libraries or engine.
-Instead of relying on prebuilt solutions, every chess rule was implemented manually to improve my problem solving skills and understanding the game logic.
+I like playing chess, and I thought building my own chess game would be a fun way to understand the logic behind it. Instead of using a chess engine, I wanted to figure everything out myself.
 
 THIS PROJECT WAS BUILT AS MY SUBMISSION FOR **#beest**.
 
 --- 
 
 # FEATURES
-- ✅ Complete chess rules
-- ✅ Legal move validation 
-- ✅ Check detection
-- ✅ Checkmate detection
-- ✅ Stalemate detection
-- ✅ Kingside and Queenside Castling
-- ✅ En Passant
-- ✅ Pawn Promotion
-- ✅ Chess Timer
-- ✅ Timeout Victoy
-- ✅ Captured pieces tracker
-- ✅ Real Algebric Chess Notaion
-- ✅ Move History Panel
-- ✅ Automatic Board Flip
-- ✅ Light / Dark theme in main chess area
-- ✅ Game Result Cards
+-  Complete chess rules
+-  Legal move validation 
+-  Check detection
+-  Checkmate detection
+-  Stalemate detection
+-  Kingside and Queenside Castling
+-  En Passant
+-  Pawn Promotion
+-  Chess Timer
+-  Timeout Victoy
+-  Captured pieces tracker
+-  Real Algebric Chess Notaion
+-  Move History Panel
+-  Automatic Board Flip
+-  Light / Dark theme in main chess area
+-  Game Result Cards
 
 ---
 
-# TECH STACK\
+# TECH STACK
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
@@ -46,19 +45,6 @@ No frameworks or external chess libraries were used
 
 ---
 
-# HOW TO RUN 
-1. Clone the repo
-```bash
-git clone https://github.com/ECXNAIRE/square64.git
-```
-
-2. Open the project folder
-
-3. Run a local server
-
-4. Open the game in your browser
-
----
 
 # HOW TO PLAY
 - Click a piece to view all legal moves.
@@ -72,9 +58,6 @@ git clone https://github.com/ECXNAIRE/square64.git
     - Stalemate
 
 ---
-
-# HOW IT WORKS
-The game uses a custom chess engine written entirely in Javasctipt.
 
 ### Board Representation
 The chess board is stored as an 8X8 array.
