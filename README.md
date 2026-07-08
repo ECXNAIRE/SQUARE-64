@@ -1,6 +1,6 @@
 A fully playable chess game buil from scratch using **HTML, CSS, and Vanilla JavaScript**.
 
-![DEMO](video-link-here)
+![DEMO](https://drive.google.com/file/d/19OT-lBeuP1S63QjlRn9VtW--hZkdzKDl/view?usp=sharing)
 
 ---
 

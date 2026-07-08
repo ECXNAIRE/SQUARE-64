@@ -678,9 +678,13 @@ canvas.addEventListener("click", async (event) => {
                     board[lastMove.toRow][lastMove.toCol] = lastMove.piece
                 }
 
+
+
+
                 drawBoard();
                 return
             }
+
 
 
 
@@ -693,6 +697,9 @@ canvas.addEventListener("click", async (event) => {
                 if (column === 6) {
                     board[selectedRow][7] = board[selectedRow][5];
                     board[selectedRow][5] = "";
+                } else if (column === 2) {
+                    board[selectedRow][0] = board[selectedRow][3];
+                    board[selectedRow][3] = "";
                 }
             }
 
@@ -703,13 +710,16 @@ canvas.addEventListener("click", async (event) => {
 
 
             board[selectedRow][selectedCol] = "";
-
-
             board[row][column] = selectedPiece;
+
+            if (isValidMove.enPassant) {
+                board[lastMove.toRow][lastMove.toCol] = "";
+            }
 
             if (isValidMove.castle) {
                 doCastle(selectedPiece, column, board);
             }
+
 
 
             await animateMove(
